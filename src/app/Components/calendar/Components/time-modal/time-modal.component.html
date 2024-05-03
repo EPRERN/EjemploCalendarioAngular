@@ -1,0 +1,53 @@
+<div class="modal-content">
+
+  <div class="time-header">
+
+    <div class="title-container">
+
+      <h2 class="time-title">{{title}} </h2>
+      <span class="time-subtitle">({{date}})</span>
+    </div>
+
+    <button class="close-btn" mat-icon-button aria-label="close" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="time-body">
+
+    <div class="field-container">
+
+      <mat-form-field appearance="outline">
+        <label class="label">{{language.eventFormTexts[formTextsKeys.HourText]}}</label>
+        <mat-select [(value)]="model.hour">
+          <ng-container *ngFor="let hour of hours">
+            <mat-option [value]="hour">{{ hour | number: '2.0' }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="field-container">
+
+      <mat-form-field appearance="outline">
+        <label class="label">{{language.eventFormTexts[formTextsKeys.MinutesText]}}</label>
+        <mat-select [(value)]="model.minute">
+          <ng-container *ngFor="let minute of minutes">
+            <mat-option [value]="minute">{{ minute | number: '2.0' }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="time-footer">
+    <button class="btn-save" mat-flat-button (click)="onSubmit()">
+      <mat-icon>save</mat-icon>
+      {{language.eventFormTexts[formTextsKeys.BtnSaveText]}}
+    </button>
+    <button class="btn-cancel" mat-flat-button aria-label="close" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+      {{language.eventFormTexts[formTextsKeys.BtnCancelText]}}
+    </button>
+  </div>
+</div>

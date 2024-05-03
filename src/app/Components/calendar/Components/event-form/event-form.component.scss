@@ -1,0 +1,145 @@
+.form-dialog {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dialog-background);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  background-color: var(--dialog-header-background);
+  color: var(--dialog-header-color);
+}
+
+.form-body {
+  padding: 1rem;
+}
+
+.description {
+  overflow: auto;
+}
+
+.hint {
+  color: var(--hint-form-color);
+}
+
+.campo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  border: 1px solid var(--bg-text-fields);
+  border-radius: 5px;
+  background: var(--bg-text-fields);
+  height: 40px;
+}
+
+.campo:hover {
+  border: 1px solid var(--field-border-color);
+}
+
+.color-input {
+  cursor: pointer;
+  height: 30px;
+  border: none;
+  padding: 0;
+  flex: 1;
+}
+
+.allday {
+  color: var(--text-color)
+}
+
+.form-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tag-container,
+.date-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.date-container {
+  background: var(--bg-text-fields);
+  padding: 2rem 2rem 0.5rem 2rem;
+}
+
+.tag-container,
+.date-container {
+  @media (max-width: 500px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.date-container:hover {
+  border: 1px solid var(--field-border-color);
+}
+
+.date-container div {
+  flex: 1;
+}
+
+.date-input {
+  text-align: center;
+}
+
+.time-btn {
+  display: flex;
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #8f8f8f;
+}
+
+.time-btn:hover {
+  color: #B3B3B3;
+}
+
+.btn-save {
+  background-color: var(--btn-save-backround);
+  color: var(--btn-save-color);
+}
+
+.btn-cancel {
+  background-color: var(--btn-cancel-backround);
+  color: var(--btn-cancel-color);
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.ms-2 {
+  margin-left: 1rem;
+}
+
+.me-2 {
+  margin-right: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.my-2 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

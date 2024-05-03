@@ -1,0 +1,12 @@
+<div class="years">
+  <a *ngFor="let year of yearsRange" [ngClass]="{
+      'extra-Year':
+        year.yearType === yearType.Before || year.yearType === yearType.After,
+      actual: year.isCurrentYear,
+      selected: year.isSelected
+    }" [disabled]="year.yearType === yearType.Before || year.yearType === yearType.After" (click)="selectYear(year)"
+    mat-stroked-button>
+    {{ year.number }}
+  </a>
+
+</div>

@@ -1,0 +1,94 @@
+.weekdays {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  justify-content: space-evenly;
+  color: var(--actual-month-days-color);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 3px;
+  justify-content: space-evenly;
+  text-align: center;
+  color: var(--actual-month-days-color);
+}
+
+.prev-date,
+.days a {
+  height: 50px;
+  width: calc(14.28% - 6px);
+  border-radius: 5px;
+  border: 3px solid transparent;
+}
+
+.days a:hover {
+  cursor: pointer;
+  border: 3px solid var(--active-border-color);
+  border-radius: 5px;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  height: 50px;
+  border-radius: 5px;
+  border: 3px solid transparent;
+}
+
+.day-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.with-events {
+  position: absolute;
+  top: 75%;
+  left: 35%;
+  height: 3px;
+  width: 30%;
+  background: var(--day-with-events-color);
+  border-radius: 25%;
+}
+
+.with-events.extraDay {
+  background: var(--day-extra-with-events-color);
+}
+
+.today {
+  background: var(--bg-text-fields);
+}
+
+.days a.selected {
+  border: 3px solid var(--active-border-color);
+  border-radius: 5px;
+}
+
+//=============================================
+// Material Design reemplazos
+//=============================================
+
+//Days btns text color
+.mat-mdc-outlined-button:not(:disabled) {
+  color: var(--day-actual-month-color);
+}
+
+//Days btns text color another month
+.mat-mdc-outlined-button.prev-date,
+.mat-mdc-outlined-button.next-date {
+  color: var(--day-another-month-color);
+  pointer-events: none;
+}
+
+//Days btns text color weekend
+.mat-mdc-outlined-button:not(:disabled).weekend {
+  color: var(--day-weekend-color);
+}
