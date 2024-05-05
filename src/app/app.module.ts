@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarComponent } from './Components';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +14,7 @@ import { CalendarComponent } from './Components';
     AppRoutingModule,
     BrowserAnimationsModule,
     CalendarComponent,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

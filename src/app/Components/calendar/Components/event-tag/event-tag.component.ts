@@ -60,13 +60,13 @@ export class EventTagComponent implements OnInit, OnDestroy {
       isEdit: true,
       language: this.language,
     };
-
+  
     const dialogRef = this.dialog.open(EventFormComponent, {
       minWidth: '40%',
       maxHeight: '80vh',
       data: eventModel,
     });
-
+  
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -74,40 +74,43 @@ export class EventTagComponent implements OnInit, OnDestroy {
         if (result === undefined) {
           return;
         }
-
+  
         //==================================================================================================
         // AQUI IRIA EL CODIGO PARA ACTUALIZAR EL EVENTO EN EL BACKEND
         //==================================================================================================
-
-        const response = this.calendarService.updateEvent(result);
-
-        if (response === false) {
+  
+        const response = this.calendarService.updateEvent(this.event.id, result);
+  
+        if (!response) {
           console.error(
             this.languageModel.errorMessages[ErrorKeys.UpdateEventError]
           );
         }
-
+  
         //==================================================================================================
-
+  
         this.reloadCalendar.emit(true);
       });
   }
+  
 
   deleteEvent() {
     //==================================================================================================
     // AQUI IRIA EL CODIGO PARA ELIMINAR EL EVENTO DEL BACKEND
     //==================================================================================================
-
-    const response = this.calendarService.deleteEvent(this.event);
-
-    if (response === false) {
-      console.error(
-        this.languageModel.errorMessages[ErrorKeys.DeleteEventError]
-      );
-    }
-
+  
+    this.calendarService.deleteEvent(this.event.id)
+      .subscribe((response) => {
+        if (!response) {
+          console.error(
+            this.languageModel.errorMessages[ErrorKeys.DeleteEventError]
+          );
+        } else {
+          this.reloadCalendar.emit(true);
+        }
+      });
+  
     //==================================================================================================
-
-    this.reloadCalendar.emit(true);
   }
+  
 }

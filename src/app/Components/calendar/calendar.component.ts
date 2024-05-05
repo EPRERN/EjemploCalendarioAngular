@@ -61,6 +61,7 @@ import { dateValidation } from './Validators';
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject();
+  events: CalendarEvent[] = []; // Variable para almacenar los eventos
 
   languages = Object.values(Languages);
   elementsKeys = PageElementsTextsKeys;
@@ -99,6 +100,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showHideEvents();
     this.setLanguage();
+    this.loadEvents(); // Cargar los eventos al iniciar el componente
   }
 
   ngOnDestroy(): void {
@@ -110,11 +112,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let newEvent = getDefaultCalendarEvent();
     newEvent.language = this.langSelected;
     newEvent.startDate = this.selectedDate;
-
+  
     const dialogRef = this.dialog.open(EventFormComponent, {
       data: newEvent,
     });
-
+  
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -122,30 +124,45 @@ export class CalendarComponent implements OnInit, OnDestroy {
         if (result === '' || result === undefined) {
           return;
         }
-
+  
         //==================================================================================================
         // AQUI IRIA EL CODIGO PARA GUARDAR EL EVENTO EN EL BACKEND Y LUEGO AGREGARLO A LA LISTA DE EVENTOS
         //==================================================================================================
-
-        const response = this.calendarService.addEvent(result);
-
-        if (response === false) {
-          console.error(
-            this.languageModel.errorMessages[ErrorKeys.AddEventError]
-          );
-        }
-
+  
+        this.calendarService.addEvent(result)
+          .subscribe((response) => {
+            if (!response) {
+              console.error(
+                this.languageModel.errorMessages[ErrorKeys.AddEventError]
+              );
+            } else {
+              this.reloadComponent();
+            }
+          });
+  
         //==================================================================================================
-
-        this.reloadComponent();
       });
   }
 
+
+  loadEvents() {
+    this.calendarService.getAllEvents()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(
+        (events: CalendarEvent[]) => {
+          this.events = events;
+        },
+        (error) => {
+          console.error('Error al cargar los eventos:', error);
+        }
+      );
+  }
+  
   deleteAllDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {
       data: this.languageModel,
     });
-
+  
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -154,25 +171,25 @@ export class CalendarComponent implements OnInit, OnDestroy {
           //==================================================================================================
           // AQUI IRIA EL CODIGO PARA ELIMINAR TODOS LOS EVENTOS DEL DIA EN EL BACKEND
           //==================================================================================================
-
-          const response = this.calendarService.deleteAllEventsOfTheDay(
-            this.selectedDate
-          );
-
-          if (response === false) {
-            console.error(
-              this.languageModel.errorMessages[
-                ErrorKeys.DeleteAllEventsOfTheDayError
-              ]
-            );
-          }
-
+  
+          this.calendarService.deleteAllEventsOfTheDay(this.selectedDate)
+            .subscribe((response) => {
+              if (response === false) {
+                console.error(
+                  this.languageModel.errorMessages[
+                    ErrorKeys.DeleteAllEventsOfTheDayError
+                  ]
+                );
+              } else {
+                this.reloadComponent();
+              }
+            });
+  
           //==================================================================================================
-
-          this.reloadComponent();
         }
       });
   }
+  
 
   /** Establece el idioma del calendario. */
   setLanguage() {

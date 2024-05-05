@@ -7,13 +7,18 @@ import {
   updateEvent,
 } from '../../Data/Data';
 import { CalendarDay, CalendarEvent } from '../Models';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CalendarService {
-  constructor() {}
 
+
+  private baseUrl = 'http://localhost:8080/api/events';
+
+  constructor(private http: HttpClient) { }
   /**
    *  Devuelve los días del mes seleccionado.
    * @param date  Fecha seleccionada.
@@ -23,13 +28,17 @@ export class CalendarService {
     return getDaysForMonthPage(date);
   }
 
+  getAllEvents(): Observable<CalendarEvent[]> {
+    return this.http.get<CalendarEvent[]>(`${this.baseUrl}`);
+  }
+  
   /**
    *  Agrega un evento a la fecha seleccionada.
    * @param event  Evento a agregar.
    * @returns  Un valor booleano que indica si se pudo agregar el evento.
    */
-  public addEvent(event: CalendarEvent): boolean {
-    return addEventToDate(event);
+  public addEvent(event: CalendarEvent): Observable<CalendarEvent> {
+    return this.http.post<CalendarEvent>(`${this.baseUrl}`, event);
   }
 
   /**
@@ -37,17 +46,18 @@ export class CalendarService {
    * @param event  Evento a actualizar.
    * @returns  Un valor booleano que indica si se pudo actualizar el evento.
    */
-  public updateEvent(event: CalendarEvent): boolean {
-    return updateEvent(event);
+  public updateEvent(id: number, event: CalendarEvent): Observable<CalendarEvent> {
+    return this.http.put<CalendarEvent>(`${this.baseUrl}/${id}`, event);
   }
+
 
   /**
    *  Elimina un evento.
    * @param event  Evento a eliminar.
    * @returns  Un valor booleano que indica si se pudo eliminar el evento.
    */
-  public deleteEvent(event: CalendarEvent): boolean {
-    return deleteEvent(event);
+  public deleteEvent(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }
 
   /**
@@ -55,7 +65,12 @@ export class CalendarService {
    * @param date  Fecha seleccionada.
    * @returns  Un valor booleano que indica si se pudieron eliminar los eventos.
    */
-  public deleteAllEventsOfTheDay(date: Date): boolean {
-    return deleteAllEventsOfTheDay(date);
-  }
+// Cambia la firma del método deleteAllEventsOfTheDay en el servicio CalendarService
+public deleteAllEventsOfTheDay(date: Date): Observable<any> {
+  // Formatea la fecha en un formato adecuado para la URL, por ejemplo, ISO string
+  const formattedDate = date.toISOString();
+  // Utiliza los parámetros de la solicitud para pasar la fecha
+  return this.http.delete<any>(`${this.baseUrl}/deleteAllEventsOfTheDay`, { params: { date: formattedDate } });
+}
+
 }
