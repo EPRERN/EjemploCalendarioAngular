@@ -1,23 +1,19 @@
 <div class="event-container">
   <div class="event-tag" [ngStyle]="{'background': event.color}"></div>
   <a class="event-data" mat-ripple (click)="openEditModal()">
-    <span class="event-title">{{event.title}}</span>
+    <span class="event-title">{{ event.title }}</span>
     <div class="event-time">
       <div class="date">
-        <span class="date-day" *ngIf="event.endDate">{{event.startDate | date:'dd/MM/yyyy'}}</span>
+        <span class="date-day" *ngIf="event.endDate">{{ event.startDate | date:'dd/MM/yyyy' }}</span>
         <span *ngIf="event.endDate" class="separator"></span>
-        <span>{{event.startDate | date:'hh:mm a'}} </span>
+        <span>{{ event.startDate | date:'hh:mm a' }}</span>
       </div>
-
       <ng-container *ngIf="event.endDate">
-
         <span> - </span>
-
         <div class="date">
-          <span class="date-day"> {{event.endDate | date:'dd/MM/yyyy'}}</span>
+          <span class="date-day">{{ event.endDate | date:'dd/MM/yyyy' }}</span>
           <span class="separator"></span>
-
-          <span>{{event.endDate | date:'hh:mm a'}} </span>
+          <span>{{ event.endDate | date:'hh:mm a' }}</span>
         </div>
       </ng-container>
     </div>
