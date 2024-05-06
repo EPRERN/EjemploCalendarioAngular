@@ -33,6 +33,7 @@ import { EventFormComponent } from '../event-form/event-form.component';
 })
 export class EventTagComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject();
+  events: CalendarEvent[] = [];
 
   @Input() event!: CalendarEvent;
   @Input() language: Languages = Languages.ENGLISH;
@@ -47,6 +48,7 @@ export class EventTagComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.languageModel = LANGUAGES[this.language];
+    this.loadEvents(); // Llama al método loadEvents() cuando se inicie el componente
   }
 
   ngOnDestroy(): void {
@@ -54,6 +56,20 @@ export class EventTagComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+
+  loadEvents() {
+    this.calendarService.getAllEvents()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(
+        (events: CalendarEvent[]) => {
+          this.events = events;
+          console.log('Eventos cargados:', events); // Agrega un console.log() para verificar
+        },
+        (error) => {
+          console.error('Error al cargar los eventos:', error);
+        }
+      );
+  }
   openEditModal() {
     const eventModel: CalendarEventForm = {
       ...this.event,

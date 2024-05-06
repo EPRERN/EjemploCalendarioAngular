@@ -101,6 +101,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.showHideEvents();
     this.setLanguage();
     this.loadEvents(); // Cargar los eventos al iniciar el componente
+    
   }
 
   ngOnDestroy(): void {
@@ -147,16 +148,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   loadEvents() {
     this.calendarService.getAllEvents()
-      .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (events: CalendarEvent[]) => {
           this.events = events;
+          console.log('Eventos cargados:', events); // Agrega un console.log() para verificar
         },
         (error) => {
           console.error('Error al cargar los eventos:', error);
         }
-      );
+      )
+      .add(() => {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
+      });
   }
+  
   
   deleteAllDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {

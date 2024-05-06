@@ -208,6 +208,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   /** Crea el formulario con los campos del evento. */
   private crearForm() {
+    console.log('Datos del evento:', this.model); // Verifica los datos del evento recibidos
     this.form = this.formbuilder.group({
       [FormFieldKeys.Id]: 0,
       [FormFieldKeys.Title]: [
