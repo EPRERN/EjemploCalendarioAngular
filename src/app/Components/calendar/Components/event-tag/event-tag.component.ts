@@ -59,7 +59,6 @@ export class EventTagComponent implements OnInit, OnDestroy {
 
   loadEvents() {
     this.calendarService.getAllEvents()
-      .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (events: CalendarEvent[]) => {
           this.events = events;
@@ -70,6 +69,7 @@ export class EventTagComponent implements OnInit, OnDestroy {
         }
       );
   }
+  
   openEditModal() {
     const eventModel: CalendarEventForm = {
       ...this.event,
@@ -115,7 +115,7 @@ export class EventTagComponent implements OnInit, OnDestroy {
     // AQUI IRIA EL CODIGO PARA ELIMINAR EL EVENTO DEL BACKEND
     //==================================================================================================
   
-    this.calendarService.deleteEvent(this.event.id)
+    this.calendarService.deleteEvent(this.event.id, this.event)
       .subscribe((response) => {
         if (!response) {
           console.error(

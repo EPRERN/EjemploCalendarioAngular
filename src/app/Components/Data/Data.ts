@@ -1,4 +1,6 @@
+import { Observable } from 'rxjs';
 import { CalendarDay, CalendarEvent, DateType } from '../calendar';
+import { CalendarService } from '../calendar/Services';
 
 //======================================================================
 //  SIMULACION DE LLAMADOS AL BACKEND API REST
@@ -24,35 +26,25 @@ export function getDaysForMonthPage(date: Date): CalendarDay[] {
  * @param event  Evento que se quiere agregar.
  * @returns  True si se agrega el evento, false en caso contrario.
  */
-export function addEventToDate(event: CalendarEvent): boolean {
-  event.id = getHighestId() + 1;
-  EVENTS_DB.push(event);
 
-  return true;
+export function addEventToDate(event: CalendarEvent, calendarService: CalendarService): Observable<CalendarEvent> {
+  return calendarService.addEvent(event);
 }
+
 
 /**
  * Actualiza un evento.
  * @param eventUpdated  Evento actualizado.
  * @returns  True si se actualiza el evento, false en caso contrario.
  */
-export function updateEvent(eventUpdated: CalendarEvent): boolean {
-  const index = EVENTS_DB.findIndex((e) => e.id === eventUpdated.id);
-  Object.assign(EVENTS_DB[index], eventUpdated);
-
-  return true;
+export function updateEvent(eventUpdated: CalendarEvent, calendarService: CalendarService): Observable<CalendarEvent> {
+  // Suponiendo que 'eventUpdated' tiene un atributo 'id'
+  return calendarService.updateEvent(eventUpdated.id, eventUpdated);
 }
 
-/**
- * Elimina un evento.
- * @param event  Evento que se quiere eliminar.
- * @returns  True si se elimina el evento, false en caso contrario.
- */
-export function deleteEvent(event: CalendarEvent): boolean {
-  const index = EVENTS_DB.findIndex((e) => e.id === event.id);
-  EVENTS_DB.splice(index, 1);
-
-  return true;
+export function deleteEvent(event: CalendarEvent, calendarService: CalendarService): Observable<any> {
+  // Suponiendo que 'event' tiene un atributo 'id'
+  return calendarService.deleteEvent(event.id, event);
 }
 
 /**
@@ -60,29 +52,35 @@ export function deleteEvent(event: CalendarEvent): boolean {
  * @param date  Día del que se quieren eliminar los eventos.
  * @returns  True si se eliminan los eventos, false en caso contrario.
  */
-export function deleteAllEventsOfTheDay(date: Date): boolean {
-  let events = getEventsOfTheDay(date);
+export function deleteAllEventsOfTheDay(date: Date, calendarService: CalendarService): void {
+  const events = calendarService.getEventsOfTheDay(date);
 
-  events.forEach((event) => {
-    const index = EVENTS_DB.indexOf(event);
-    EVENTS_DB.splice(index, 1);
+  console.log('Fecha enviada desde deleteAllEventsOfTheDay:', date);
+
+  events.forEach((eventsArray: CalendarEvent[]) => { 
+    eventsArray.forEach((event: CalendarEvent) => {
+      calendarService.deleteEvent(event.id, event).subscribe(
+        () => {
+          console.log('Evento eliminado con éxito:', event);
+        },
+        (error) => {
+          console.error('Error al eliminar el evento:', error);
+        }
+      );
+    });
   });
-
-  return true;
 }
 
-//======================================================================
-//  GENERACION AUTOMATICA DE EVENTOS SIMULANDO LA DB EN EL BACKEND
-//======================================================================
+
 
 /** Lista de eventos que simula DB en el backend. */
-const EVENTS_DB = generateEvents();
+const EVENTS_DB: CalendarEvent[] = generateEvents();
 
 /**
  *  Genera eventos aleatorios para el mes anterior, el mes actual y el mes siguiente.
  * @returns  Una lista de eventos de tipo CalendarEvent[].
  */
-function generateEvents() {
+function generateEvents(): CalendarEvent[] {
   let events: CalendarEvent[] = [];
 
   const date = new Date();
@@ -362,7 +360,6 @@ function isToday(date: Date) {
     date.getFullYear() === today.getFullYear()
   );
 }
-
 /**
  * Obtiene los eventos de un día.
  * @param date Día del que se quieren obtener los eventos.
@@ -370,15 +367,16 @@ function isToday(date: Date) {
  */
 function getEventsOfTheDay(date: Date): CalendarEvent[] {
   return EVENTS_DB.filter((event) => {
-    //si tenemos fecha de fin filtramos por rango de fechas
+    // Si tenemos fecha de fin, filtramos por rango de fechas
     if (event.endDate) {
       return isDateInRangeOfTheEnvent(date, event);
     }
 
-    //si no tenemos fecha de fin filtramos por fecha de inicio
+    // Si no tenemos fecha de fin, filtramos por fecha de inicio
     return isEventOfTheDay(date, event);
   });
 }
+
 
 /**
  *  Determina si el día pasado por parámetro es el día de inicio de un evento.
