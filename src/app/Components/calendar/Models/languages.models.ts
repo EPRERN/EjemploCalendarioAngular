@@ -1,3 +1,5 @@
+import { style } from "@angular/animations";
+
 interface TextCalendarDictionary {
   [key: string]: string;
 }
@@ -143,7 +145,7 @@ export const ENGLISH: LanguageModel = {
     deleteAllEventsOfTheDayError: 'Error deleting all events of the day',
   },
   eventFormTexts: {
-    headerTitleAdd: 'Add event',
+    headerTitleAdd: 'Instalaciones y Retiros',
     headerTitleEdit: 'Edit event',
     title: 'Title',
     description: 'Description',
@@ -159,6 +161,7 @@ export const ENGLISH: LanguageModel = {
     timeModalTitle: 'Select time',
     minutesText: 'Minutes',
     hourText: 'Hour',
+    
   },
 };
 
@@ -206,7 +209,7 @@ export const SPANISH: LanguageModel = {
     btnGoToday: 'Hoy',
     btnShowEvents: 'Mostrar eventos',
     btnHideEvents: 'Ocultar eventos',
-    btnAddEvent: 'Agregar evento',
+    btnAddEvent: 'Instalaciones y Retiros',
     btnNext: 'Siguiente',
     btnPrev: 'Anterior',
     deleteTitleDialog: 'Eliminar evento',
@@ -234,14 +237,14 @@ export const SPANISH: LanguageModel = {
     deleteAllEventsOfTheDayError: 'Error al eliminar todos los eventos del día',
   },
   eventFormTexts: {
-    headerTitleAdd: 'Agregar evento',
+    headerTitleAdd: 'Instalaciones y Retiros',
     headerTitleEdit: 'Editar evento',
     title: 'Título',
     description: 'Descripción',
-    startDate: 'Fecha de inicio',
-    startTime: 'Hora de inicio',
-    endDate: 'Fecha de fin',
-    endTime: 'Hora de fin',
+    startDate: 'Fecha de instalación',
+    startTime: 'Hora de instalación',
+    endDate: 'Fecha de retiro',
+    endTime: 'Hora de retiro',
     color: 'Color de etiqueta',
     isAllDay: 'Todo el día',
     btnSaveText: 'Guardar',

@@ -7,8 +7,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MAT_DIALOG_DATA,
@@ -32,6 +35,7 @@ import {
   ENGLISH,
   EventFormTextsKeys,
   LANGUAGES,
+  SPANISH,
 } from '../../Models/languages.models';
 import {
   endDateValidation,
@@ -43,11 +47,13 @@ import {
   eventFieldValidation,
 } from '../../Validators/event-field.validations';
 import { TimeModalComponent } from '../time-modal/time-modal.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-event-form',
   standalone: true,
   imports: [
+    MatSelectModule,
     TimeModalComponent,
     MatDialogModule,
     MatIconModule,
@@ -59,8 +65,9 @@ import { TimeModalComponent } from '../time-modal/time-modal.component';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
+    MatOptionModule,
     MatRippleModule,
+    CommonModule,
     NgIf,
     NgStyle,
   ],
@@ -72,7 +79,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   model: CalendarEventForm = this.createDefaultEvent();
 
-  language: LanguageModel = ENGLISH;
+  language: LanguageModel = SPANISH;
   formTextsKeys = EventFormTextsKeys;
 
   modalTitle = '';
@@ -107,6 +114,30 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.crearForm();
     this.initErrorsMessages();
   }
+
+
+  distritos: any[] = [
+    'GENERAL CONESA',
+    'VIEDMA',
+    'SAN ANTONIO OESTE',
+    'SIERRA GRANDE',
+    'VALCHETA',
+    'RIO COLORADO',
+    'CHOELE CHOEL',
+    'CIPOLLETTI',
+    'ALLEN',
+    'GENERAL ROCA',
+    'VILLA REGINA',
+    'CINCO SALTOS',
+    'CATRIEL',
+    'CERRO POLICIA',
+    'EL CUY',
+    'BARILOCHE',
+    'INGENIERO JACOBACCI',
+    'EL CAIN',
+    'EL BOLSON'
+  ];
+  
 
   onSubmit() {
     this.dialogRef.close(this.getUpdatedCalendarEvent());
@@ -172,6 +203,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       endDate: this.createDate(false),
       color: this.form.get(FormFieldKeys.Color)?.value,
       isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
+      distritos:this.model.distritos,
+      diasHabiles:this.model.diasHabiles
     };
 
     if (output.isAllDay) {
@@ -386,6 +419,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       isAllDay: false,
       isEdit: false,
       language: this.data.language,
+      distritos:'',
+      diasHabiles:0
     };
   }
 }

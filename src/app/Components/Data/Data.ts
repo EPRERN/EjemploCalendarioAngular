@@ -196,6 +196,8 @@ function generateDayEvents(date: Date) {
       startDate: new Date(date.getFullYear(), date.getMonth(), dayRandom),
       color: getRandomColor(),
       isAllDay: getRandomBoolean(),
+      distritos:'',
+      diasHabiles:0
     };
 
     if (!event.isAllDay) {

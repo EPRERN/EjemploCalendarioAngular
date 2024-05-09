@@ -30,6 +30,7 @@ import {
   LanguageModel,
   Languages,
   PageElementsTextsKeys,
+  SPANISH,
   getDefaultCalendarEvent,
 } from './Models';
 import { CalendarService } from './Services';
@@ -71,9 +72,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   @Input() isEventsPanelHidden = false;
 
   /** El idioma del calendario.*/
-  @Input() language = Languages.ENGLISH;
-  languageModel: LanguageModel = ENGLISH;
-  langSelected = Languages.ENGLISH;
+  @Input() language = Languages.SPANISH;
+  languageModel: LanguageModel = SPANISH;
+  langSelected = Languages.SPANISH;
 
   panelsType = CalendarPanel;
   panelSelected: CalendarPanel = CalendarPanel.Days;

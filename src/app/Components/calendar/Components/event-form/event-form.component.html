@@ -14,20 +14,35 @@
       <div class="fields">
 
         <!-- title -->
-        <mat-form-field appearance="outline" class="">
+        <!-- <mat-form-field appearance="outline" class="">
           <mat-label>{{language.eventFormTexts[formTextsKeys.Title]}}</mat-label>
           <input id="title" matInput formControlName="{{formTextsKeys.Title}}" #eventTitle />
           <mat-error *ngIf="form.invalid">{{titleError}}</mat-error>
           <mat-hint class="hint">{{eventTitle.value.length}} / 60</mat-hint>
-        </mat-form-field>
+        </mat-form-field> -->
 
+
+
+      
+        <mat-form-field >
+          <mat-label >Distritos</mat-label>
+          <mat-select >
+            <mat-option *ngFor="let distrito of distritos"  [value]="distrito">{{ distrito }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        
+        
         <!-- description -->
-        <mat-form-field appearance="outline">
-          <mat-label>{{language.eventFormTexts[formTextsKeys.Description]}}</mat-label>
-          <textarea matInput #eventDescr formControlName="{{formTextsKeys.Description}}" maxlength="200"
+        <mat-form-field appearance="outline"> 
+          <mat-label>Días hábiles medición</mat-label>
+   
+          <textarea matInput #eventDescr formControlName="{{formTextsKeys.Description}}" maxlength="100"
             class="description"></textarea>
           <mat-hint class="hint">{{eventDescr.value.length}} / 200</mat-hint>
         </mat-form-field>
+
+        
 
         <!-- tag color and all day -->
         <div class=" tag-container">

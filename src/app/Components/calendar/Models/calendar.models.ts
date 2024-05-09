@@ -43,6 +43,8 @@ export interface CalendarEvent {
   endDate?: Date;
   color: string;
   isAllDay: boolean;
+  distritos: string;
+  diasHabiles:number;
 }
 
 export interface CalendarEventForm extends CalendarEvent {
@@ -80,6 +82,8 @@ export function getDefaultCalendarEvent(): CalendarEventForm {
     color: '#AD0000',
     isAllDay: false,
     isEdit: false,
-    language: Languages.ENGLISH,
+    language: Languages.SPANISH,
+    distritos:'',
+    diasHabiles:0
   };
 }
