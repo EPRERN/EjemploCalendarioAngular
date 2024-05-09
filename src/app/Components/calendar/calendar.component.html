@@ -8,9 +8,9 @@
 
       <div class="month-displace">
         <!-- language select -->
-        <select class="lang-select" [(ngModel)]="langSelected" (change)="setLanguage()" name="idioma">
+        <!-- <select class="lang-select" [(ngModel)]="langSelected" (change)="setLanguage()" name="idioma">
           <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
-        </select>
+        </select> -->
 
         <!-- prev month -->
         <a (click)="prevDatePanel()" mat-mini-fab>
@@ -55,7 +55,7 @@
           </button>
         </mat-form-field>
       </form>
-      <a (click)="goToday()" class="goto-today-btn" mat-raised-button aria-label="go today">
+      <a (click)="goToday()" style="background-color: rgb(56, 111, 162); " class="goto-today-btn" mat-raised-button aria-label="go today">
         {{languageModel.pageElementsTexts[elementsKeys.BtnGoToday]}}
       </a>
     </div>
@@ -95,7 +95,7 @@
     <div class="events-footer">
       <button (click)="deleteAllDialog()" class="delete-all-btn" mat-stroked-button aria-label="delete event">
         <mat-icon>delete_forever</mat-icon>
-        Delete All
+        Borrar Todo
       </button>
       <button (click)="openAddEventDialog()" class="new-event-btn" mat-mini-fab aria-label="add event">
         <mat-icon>add_circle_outline</mat-icon>

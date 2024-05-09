@@ -61,10 +61,12 @@
 
 .with-events.extraDay {
   background: var(--day-extra-with-events-color);
+  
 }
 
 .today {
-  background: var(--bg-text-fields);
+  background: rgb(56, 111, 162);;
+
 }
 
 .days a.selected {

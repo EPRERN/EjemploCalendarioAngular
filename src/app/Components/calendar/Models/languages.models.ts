@@ -207,8 +207,8 @@ export const SPANISH: LanguageModel = {
   pageElementsTexts: {
     datePlaceHolderFormat: 'dd/mm/aaaa',
     btnGoToday: 'Hoy',
-    btnShowEvents: 'Mostrar eventos',
-    btnHideEvents: 'Ocultar eventos',
+    btnShowEvents: 'Mostrar Instalaciones y Retiros',
+    btnHideEvents: 'Ocultar Instalaciones y Retiros',
     btnAddEvent: 'Instalaciones y Retiros',
     btnNext: 'Siguiente',
     btnPrev: 'Anterior',
