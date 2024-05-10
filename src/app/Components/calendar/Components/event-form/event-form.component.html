@@ -26,10 +26,11 @@
       
         <mat-form-field >
           <mat-label >Distritos</mat-label>
-          <mat-select >
-            <mat-option *ngFor="let distrito of distritos"  [value]="distrito">{{ distrito }}</mat-option>
+          <mat-select formControlName="distritos">
+            <mat-option *ngFor="let distrito of distritos" [value]="distrito">{{ distrito }}</mat-option>
           </mat-select>
         </mat-form-field>
+        
         
         
         

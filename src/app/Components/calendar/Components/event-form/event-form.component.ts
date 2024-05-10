@@ -245,8 +245,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.form = this.formbuilder.group({
       [FormFieldKeys.Id]: 0,
       [FormFieldKeys.Title]: [
-        '',
-        [Validators.required, Validators.maxLength(60)],
+        
       ],
       [FormFieldKeys.Description]: ['', [Validators.maxLength(200)]],
       [FormFieldKeys.StartDate]: ['', [startDateValidation(this.language)]],
@@ -255,6 +254,10 @@ export class EventFormComponent implements OnInit, OnDestroy {
       [FormFieldKeys.EndTime]: [''],
       [FormFieldKeys.Color]: ['#AD0000'],
       [FormFieldKeys.IsAllDay]: [false],
+      [FormFieldKeys.distritos]: [''],
+      [FormFieldKeys.diasHabiles]: [0],
+      
+      
     });
 
     this.setValidatorsToEndDateAndEndTime();

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { CalendarDay, CalendarEvent } from '../Models';
 import {
-  addEventToDate,
+  
   deleteAllEventsOfTheDay,
   deleteEvent,
   getDaysForMonthPage,
@@ -31,19 +31,19 @@ export class CalendarService {
 
 
   public addEvent(event: CalendarEvent): Observable<CalendarEvent> {
-    addEventToDate(event, this);
+    // addEventToDate(event, this);
     return this.http.post<CalendarEvent>(this.baseUrl, event);
 
   }
 
   public updateEvent(id: number, event: CalendarEvent): Observable<CalendarEvent> {
-    updateEvent(event, this); // Pasando una instancia de CalendarService como segundo argumento
+    // updateEvent(event, this); // Pasando una instancia de CalendarService como segundo argumento
     return this.http.put<CalendarEvent>(`${this.baseUrl}/${id}`, event);
   }
   
 
   public deleteEvent(id: number, event: CalendarEvent): Observable<any> {
-    deleteEvent(event, this); // Pasando una instancia de CalendarService como segundo argumento
+    // deleteEvent(event, this); // Pasando una instancia de CalendarService como segundo argumento
     return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }
   

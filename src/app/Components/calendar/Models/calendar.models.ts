@@ -23,6 +23,8 @@ export enum FormFieldKeys {
   Color = 'color',
   IsAllDay = 'isAllDay',
   TimeModalTitle = 'timeModalTitle',
+  distritos = 'distritos',
+  diasHabiles = 'diasHabiles'
 }
 
 export interface CalendarDay {
@@ -37,7 +39,7 @@ export interface CalendarDay {
 
 export interface CalendarEvent {
   id: number;
-  title: string;
+  title: string | null;
   description: string;
   startDate: Date;
   endDate?: Date;

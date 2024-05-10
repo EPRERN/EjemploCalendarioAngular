@@ -62,6 +62,8 @@ export enum EventFormTextsKeys {
   TimeModalTitle = 'timeModalTitle',
   MinutesText = 'minutesText',
   HourText = 'hourText',
+  distritos = 'distritos',
+  diasHabiles = 'diasHabiles'
 }
 
 export interface LanguageModel {
