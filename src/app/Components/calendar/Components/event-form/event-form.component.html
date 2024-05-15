@@ -45,7 +45,7 @@
         
 
         <!-- tag color and all day -->
-        <div class=" tag-container">
+        <!-- <div class=" tag-container">
           <div class="campo mb-2">
             <mat-label>{{language.eventFormTexts[formTextsKeys.Color]}}</mat-label>
             <input matInput formControlName="{{formTextsKeys.Color}}" type="color" class="color-input">
@@ -56,7 +56,7 @@
               (toggleChange)="showDates()"><span
                 class="me-2 allday">{{language.eventFormTexts[formTextsKeys.IsAllDay]}}</span></mat-slide-toggle>
           </div>
-        </div>
+        </div> -->
 
         <ng-container *ngIf="!model.isAllDay">
 
@@ -72,7 +72,7 @@
             <mat-form-field appearance="outline">
               <mat-label>{{language.eventFormTexts[formTextsKeys.StartTime]}}</mat-label>
               <input class="date-input" matInput type="time" formControlName="{{formTextsKeys.StartTime}}">
-              <mat-error *ngIf="form.invalid">{{startTimeError}}</mat-error>
+              <!-- <mat-error *ngIf="form.invalid">{{startTimeError}}</mat-error> -->
 
               <a (click)="openTimeDialog()" class="time-btn" matSuffix aria-label="set time">
                 <mat-icon>schedule</mat-icon>
@@ -110,7 +110,7 @@
   <div class="form-footer">
 
 
-    <button class="btn-save" mat-flat-button aria-label="close" [disabled]="form.invalid" form="eventForm"
+    <button class="btn-save" mat-flat-button aria-label="close" form="eventForm"
       (click)="onSubmit()">
       <mat-icon>{{model.isEdit ? 'edit' : 'save'}}</mat-icon>
       {{ model.isEdit ? language.eventFormTexts[formTextsKeys.BtnEditText] :

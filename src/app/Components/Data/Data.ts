@@ -83,26 +83,26 @@ const EVENTS_DB: CalendarEvent[] = generateEvents();
 function generateEvents(): CalendarEvent[] {
   let events: CalendarEvent[] = [];
 
-  const date = new Date();
-  let month = date.getMonth();
-  let year = date.getFullYear();
+  // const date = new Date();
+  // let month = date.getMonth();
+  // let year = date.getFullYear();
 
-  //eventos mes pasado
-  let previousDate = getPreviousMonthAndItsYear(month, year);
+  // //eventos mes pasado
+  // let previousDate = getPreviousMonthAndItsYear(month, year);
 
-  events = [
-    ...events,
-    ...generateMonthEvents(previousDate.month, previousDate.year),
-  ];
+  // events = [
+  //   ...events,
+  //   ...generateMonthEvents(previousDate.month, previousDate.year),
+  // ];
 
-  // Restablece el año y el mes para el mes actual
-  month = date.getMonth();
-  year = date.getFullYear();
-  events = [...events, ...generateMonthEvents(month, year)]; //eventos mes actual
+  // // Restablece el año y el mes para el mes actual
+  // month = date.getMonth();
+  // year = date.getFullYear();
+  // events = [...events, ...generateMonthEvents(month, year)]; //eventos mes actual
 
-  //eventos mes siguiente
-  let nextDate = getNextMonthAndItsYear(month, year);
-  events = [...events, ...generateMonthEvents(nextDate.month, nextDate.year)];
+  // //eventos mes siguiente
+  // let nextDate = getNextMonthAndItsYear(month, year);
+  // events = [...events, ...generateMonthEvents(nextDate.month, nextDate.year)];
 
   return events;
 }

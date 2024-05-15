@@ -32,7 +32,7 @@ import {
   TimeDateModal,
 } from '../../Models';
 import {
-  ENGLISH,
+  
   EventFormTextsKeys,
   LANGUAGES,
   SPANISH,
@@ -243,6 +243,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   private crearForm() {
     console.log('Datos del evento:', this.model); // Verifica los datos del evento recibidos
     this.form = this.formbuilder.group({
+      
       [FormFieldKeys.Id]: 0,
       [FormFieldKeys.Title]: [
         '',
@@ -250,7 +251,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       ],
       [FormFieldKeys.Description]: ['', [Validators.maxLength(200)]],
       [FormFieldKeys.StartDate]: ['', [startDateValidation(this.language)]],
-      [FormFieldKeys.StartTime]: ['', [startTimeValidation(this.language)]],
+      [FormFieldKeys.StartTime]:[''],
+      // [FormFieldKeys.StartTime]: ['', [startTimeValidation(this.language)]],
       [FormFieldKeys.EndDate]: [''],
       [FormFieldKeys.EndTime]: [''],
       [FormFieldKeys.Color]: ['#AD0000'],
@@ -263,9 +265,17 @@ export class EventFormComponent implements OnInit, OnDestroy {
       this.form.patchValue(this.model);
     }
 
+    const defaultStartTime = '00:00';
+
+    // Luego, en tu código, puedes verificar si StartTime no tiene un valor y asignarle el valor predeterminado:
+    if (!FormFieldKeys.StartTime) {
+      FormFieldKeys.StartTime = defaultStartTime;
+    }
+    
     this.setStartDateInForm();
     this.setEndDateInForm();
   }
+
 
   /** Asigna los validadores a los campos de fecha y hora de fin del evento. */
   private setValidatorsToEndDateAndEndTime() {

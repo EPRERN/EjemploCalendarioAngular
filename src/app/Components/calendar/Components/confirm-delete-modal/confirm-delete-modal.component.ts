@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ENGLISH, LanguageModel, PageElementsTextsKeys } from '../../Models';
+import { SPANISH, LanguageModel, PageElementsTextsKeys } from '../../Models';
 
 @Component({
   selector: 'app-confirm-delete-modal',
@@ -12,7 +12,7 @@ import { ENGLISH, LanguageModel, PageElementsTextsKeys } from '../../Models';
   styleUrls: ['./confirm-delete-modal.component.scss'],
 })
 export class ConfirmDeleteModalComponent implements OnInit {
-  language: LanguageModel = ENGLISH;
+  language: LanguageModel = SPANISH;
   textsKeys = PageElementsTextsKeys;
 
   constructor(

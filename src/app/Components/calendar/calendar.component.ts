@@ -24,7 +24,7 @@ import {
   CalendarDay,
   CalendarEvent,
   CalendarPanel,
-  ENGLISH,
+
   ErrorKeys,
   LANGUAGES,
   LanguageModel,

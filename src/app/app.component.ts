@@ -8,5 +8,5 @@ import { Languages } from './Components';
 })
 export class AppComponent {
   title = 'angularcalendar';
-  language = Languages.ENGLISH;
+  language = Languages.SPANISH;
 }

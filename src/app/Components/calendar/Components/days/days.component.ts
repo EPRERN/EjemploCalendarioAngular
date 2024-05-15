@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { getDaysForMonthPage } from 'src/app/Components/Data/Data';
-import { CalendarDay, CalendarEvent, DateType, ENGLISH } from '../../Models';
+import { CalendarDay, CalendarEvent, DateType, SPANISH } from '../../Models';
 import { CalendarService } from '../../Services';
 
 @Component({
@@ -20,7 +20,7 @@ export class DaysComponent implements OnInit {
   @Input() date!: Date;
 
   /** Nombre de los días de la semana en formato corto. */
-  @Input() dayNames = ENGLISH.shortDayNames;
+  @Input() dayNames = SPANISH.shortDayNames;
 
   /**  Devuelve el día seleccionado en formato CalendarDay. */
   @Output() selectedDay = new EventEmitter<CalendarDay>();

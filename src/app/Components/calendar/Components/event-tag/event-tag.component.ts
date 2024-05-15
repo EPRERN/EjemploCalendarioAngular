@@ -12,11 +12,12 @@ import { MatIconModule } from '@angular/material/icon';
 import {
   CalendarEvent,
   CalendarEventForm,
-  ENGLISH,
+  
   ErrorKeys,
   LANGUAGES,
   LanguageModel,
   Languages,
+  SPANISH,
 } from '../../Models';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -36,8 +37,8 @@ export class EventTagComponent implements OnInit, OnDestroy {
   events: CalendarEvent[] = [];
 
   @Input() event!: CalendarEvent;
-  @Input() language: Languages = Languages.ENGLISH;
-  languageModel: LanguageModel = ENGLISH;
+  @Input() language: Languages = Languages.SPANISH;
+  languageModel: LanguageModel = SPANISH;
 
   @Output() reloadCalendar: EventEmitter<boolean> = new EventEmitter<boolean>();
 

@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import {
-  ENGLISH,
+  SPANISH,
   EventFormTextsKeys,
   FormFieldKeys,
   LANGUAGES,
@@ -32,7 +32,7 @@ import {
 })
 export class TimeModalComponent implements OnInit {
   form!: FormGroup;
-  language: LanguageModel = ENGLISH;
+  language: LanguageModel = SPANISH;
   formTextsKeys = EventFormTextsKeys;
 
   title: string = '';

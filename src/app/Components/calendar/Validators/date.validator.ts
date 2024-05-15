@@ -67,9 +67,10 @@ export function startTimeValidation(language: LanguageModel): ValidatorFn {
 
     if (valor === '' || valor == null || valor == undefined) {
       return {
-        startTimeRequired: {
-          message: language.errorMessages[ErrorKeys.StartTimeRequired],
-        },
+      
+        // startTimeRequired: {
+        //   message: language.errorMessages[ErrorKeys.StartTimeRequired],
+        // },
       };
     }
 
