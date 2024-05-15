@@ -15,7 +15,7 @@ export enum DateType {
 export enum FormFieldKeys {
   Id = 'id',
   Title = 'title',
-  Description = 'description',
+  DiasHabiles = 'diasHabiles',
   StartDate = 'startDate',
   StartTime = 'startTime',
   EndDate = 'endDate',
@@ -24,7 +24,7 @@ export enum FormFieldKeys {
   IsAllDay = 'isAllDay',
   TimeModalTitle = 'timeModalTitle',
   distritos = 'distritos',
-  diasHabiles = 'diasHabiles'
+  // diasHabiles = 'diasHabiles'
 }
 
 export interface CalendarDay {
@@ -40,13 +40,13 @@ export interface CalendarDay {
 export interface CalendarEvent {
   id: number;
   title: string | null;
-  description: string;
+  diasHabiles: number;
   startDate: Date;
   endDate?: Date;
   color: string;
   isAllDay: boolean;
-  distritos: string;
-  diasHabiles:number;
+  distritos: string ;
+  // diasHabiles:number;
 }
 
 export interface CalendarEventForm extends CalendarEvent {
@@ -78,7 +78,7 @@ export function getDefaultCalendarEvent(): CalendarEventForm {
   return {
     id: 0,
     title: '',
-    description: '',
+    diasHabiles: 0,
     startDate: new Date(),
     endDate: undefined,
     color: '#AD0000',
@@ -86,6 +86,6 @@ export function getDefaultCalendarEvent(): CalendarEventForm {
     isEdit: false,
     language: Languages.SPANISH,
     distritos:'',
-    diasHabiles:0
+    // diasHabiles:0
   };
 }

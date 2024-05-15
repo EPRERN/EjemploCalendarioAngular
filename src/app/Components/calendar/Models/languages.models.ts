@@ -15,7 +15,7 @@ export enum ErrorKeys {
   MaxLength = 'maxlength',
   TitleRequired = 'titleRequired',
   TitleMaxLength = 'titleMaxLength',
-  DescriptionMaxLength = 'descriptionMaxLength',
+  // DescriptionMaxLength = 'descriptionMaxLength',
   DateFormatInvalid = 'dateFormatInvalid',
   StartDateRequired = 'startDateRequired',
   DateInvalid = 'dateInvalid',
@@ -49,7 +49,7 @@ export enum EventFormTextsKeys {
   HeaderTitleAdd = 'headerTitleAdd',
   HeaderTitleEdit = 'headerTitleEdit',
   Title = 'title',
-  Description = 'description',
+  DiasHabiles = 'diasHabiles',
   StartDate = 'startDate',
   StartTime = 'startTime',
   EndDate = 'endDate',
@@ -63,7 +63,7 @@ export enum EventFormTextsKeys {
   MinutesText = 'minutesText',
   HourText = 'hourText',
   distritos = 'distritos',
-  diasHabiles = 'diasHabiles'
+  // diasHabiles = 'diasHabiles'
 }
 
 export interface LanguageModel {
@@ -150,7 +150,8 @@ export const ENGLISH: LanguageModel = {
     headerTitleAdd: 'Instalaciones y Retiros',
     headerTitleEdit: 'Edit event',
     title: 'Title',
-    description: 'Description',
+    diasHabiles: 'Dias Habiles',
+    distritos:'distritos',
     startDate: 'Start date',
     startTime: 'Start time',
     endDate: 'End date',
@@ -242,7 +243,8 @@ export const SPANISH: LanguageModel = {
     headerTitleAdd: 'Instalaciones y Retiros',
     headerTitleEdit: 'Editar evento',
     title: 'Título',
-    description: 'Descripción',
+    diasHabiles: 'Dias Habiles',
+    distritos: 'distritos',
     startDate: 'Fecha de instalación',
     startTime: 'Hora de instalación',
     endDate: 'Fecha de retiro',
@@ -333,7 +335,8 @@ export const PORTUGUESE: LanguageModel = {
     headerTitleAdd: 'Adicionar evento',
     headerTitleEdit: 'Editar evento',
     title: 'Título',
-    description: 'Descrição',
+    distritos: 'Distritos',
+    // description: 'Descrição',
     startDate: 'Data de inicio',
     startTime: 'Hora de inicio',
     endDate: 'Data de fim',

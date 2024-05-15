@@ -188,24 +188,24 @@ function generateDayEvents(date: Date) {
   const dayRandom = Math.floor(Math.random() * 28) + 1;
   const eventsCountRandom = Math.floor(Math.random() * 10) + 1;
 
-  for (let index = 0; index < eventsCountRandom; index++) {
-    let event: CalendarEvent = {
-      id: generateDayId(),
-      title: `Event ${index}`,
-      description: `Description ${index}`,
-      startDate: new Date(date.getFullYear(), date.getMonth(), dayRandom),
-      color: getRandomColor(),
-      isAllDay: getRandomBoolean(),
-      distritos:'',
-      diasHabiles:0
-    };
+  // for (let index = 0; index < eventsCountRandom; index++) {
+  //   let event: CalendarEvent = {
+  //     id: generateDayId(),
+  //     title: `Event ${index}`,
+  //     // diasHabiles: ` ${index}`,
+  //     startDate: new Date(date.getFullYear(), date.getMonth(), dayRandom),
+  //     color: getRandomColor(),
+  //     isAllDay: getRandomBoolean(),
+  //     distritos:'',
+  //     // diasHabiles:0
+  //   };
 
-    if (!event.isAllDay) {
-      event.endDate = addThirtyMinutes(event.startDate);
-    }
+  //   if (!event.isAllDay) {
+  //     event.endDate = addThirtyMinutes(event.startDate);
+  //   }
 
-    events.push(event);
-  }
+  //   events.push(event);
+  // }
 
   return events;
 }
@@ -345,6 +345,7 @@ function createCalendarDay(date: Date, dayType: DateType): CalendarDay {
     isToday: isToday(date),
     dayOfWeek: date.getDay(),
     date: new Date(date),
+    
   };
 
   return calendarDay;

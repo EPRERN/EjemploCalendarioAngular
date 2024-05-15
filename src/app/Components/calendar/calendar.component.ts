@@ -315,6 +315,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
       this.panelSelected = CalendarPanel.Days;
       this.reloadComponent();
+      
     }
   }
 

@@ -89,7 +89,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   //errores
   titleError: string = '';
-  descriptionError: string = '';
+  diasHabilesError: string = '';
   startDateError: string = '';
   startTimeError: string = '';
   endDateError: string = '';
@@ -198,13 +198,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const output: CalendarEvent = {
       id: this.model.id,
       title: this.form.get(FormFieldKeys.Title)?.value,
-      description: this.form.get(FormFieldKeys.Description)?.value,
+      diasHabiles: this.form.get(FormFieldKeys.DiasHabiles)?.value,
       startDate: this.createDate(),
       endDate: this.createDate(false),
       color: this.form.get(FormFieldKeys.Color)?.value,
       isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
-      distritos:this.model.distritos,
-      diasHabiles:this.model.diasHabiles
+      distritos: this.form.get(FormFieldKeys.distritos)?.value,
+            // diasHabiles:this.model.diasHabiles
     };
 
     if (output.isAllDay) {
@@ -247,15 +247,15 @@ export class EventFormComponent implements OnInit, OnDestroy {
       [FormFieldKeys.Title]: [
         
       ],
-      [FormFieldKeys.Description]: ['', [Validators.maxLength(200)]],
+      [FormFieldKeys.DiasHabiles]: ['', [Validators.maxLength(200)]],
       [FormFieldKeys.StartDate]: ['', [startDateValidation(this.language)]],
       [FormFieldKeys.StartTime]: ['', [startTimeValidation(this.language)]],
       [FormFieldKeys.EndDate]: [''],
       [FormFieldKeys.EndTime]: [''],
       [FormFieldKeys.Color]: ['#AD0000'],
       [FormFieldKeys.IsAllDay]: [false],
-      [FormFieldKeys.distritos]: [''],
-      [FormFieldKeys.diasHabiles]: [0],
+      [FormFieldKeys.distritos]: [],
+      // [FormFieldKeys.diasHabiles]: [0],
       
       
     });
@@ -357,8 +357,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       case EventFieldType.Title:
         this.titleError = error;
         break;
-      case EventFieldType.Description:
-        this.descriptionError = error;
+      case EventFieldType.DiasHabiles:
+        this.diasHabilesError = error;
         break;
       case EventFieldType.StartDate:
         this.startDateError = error;
@@ -415,7 +415,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     return {
       id: 0,
       title: '',
-      description: '',
+      diasHabiles: 0,
       startDate: new Date(),
       endDate: new Date(),
       color: '',
@@ -423,7 +423,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       isEdit: false,
       language: this.data.language,
       distritos:'',
-      diasHabiles:0
+      // diasHabiles:0
     };
   }
 }

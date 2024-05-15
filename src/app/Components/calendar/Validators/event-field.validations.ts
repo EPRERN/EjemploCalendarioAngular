@@ -3,11 +3,13 @@ import { ErrorKeys, LANGUAGES, LanguageModel, Languages } from '../Models';
 
 export enum EventFieldType {
   Title = 'title',
-  Description = 'description',
+  DiasHabiles = 'diasHabiles',
   StartDate = 'startDate',
   StartTime = 'startTime',
   EndDate = 'endDate',
   EndTime = 'endTime',
+  distritos = 'distritos'
+  // DiasHabiles = "DiasHabiles",
 }
 
 /**
@@ -27,7 +29,7 @@ export function eventFieldValidation(
   switch (field) {
     case EventFieldType.Title:
       return titleValidation(form, languageSelected);
-    case EventFieldType.Description:
+    case EventFieldType.DiasHabiles:
       return descriptionValidation(form, languageSelected);
     case EventFieldType.StartDate:
       return startDateValidation(form);
@@ -74,9 +76,9 @@ function descriptionValidation(
 ): string {
   var field = form.get('title')!;
 
-  if (field.hasError(ErrorKeys.MaxLength)) {
-    return language.errorMessages[ErrorKeys.DescriptionMaxLength];
-  }
+  // if (field.hasError(ErrorKeys.MaxLength)) {
+  //   return language.errorMessages[ErrorKeys.DescriptionMaxLength];
+  // }
 
   return '';
 }

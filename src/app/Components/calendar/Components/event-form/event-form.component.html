@@ -24,12 +24,13 @@
 
 
       
-        <mat-form-field >
-          <mat-label >Distritos</mat-label>
-          <mat-select formControlName="distritos">
+        <mat-form-field>
+          <mat-label>Distritos</mat-label>
+          <mat-select formControlName="{{formTextsKeys.distritos}}">
             <mat-option *ngFor="let distrito of distritos" [value]="distrito">{{ distrito }}</mat-option>
           </mat-select>
         </mat-form-field>
+        
         
         
         
@@ -38,15 +39,15 @@
         <mat-form-field appearance="outline"> 
           <mat-label>Días hábiles medición</mat-label>
    
-          <textarea matInput #eventDescr formControlName="{{formTextsKeys.Description}}" maxlength="100"
-            class="description"></textarea>
+          <textarea matInput #eventDescr formControlName="{{formTextsKeys.DiasHabiles}}" maxlength="100"
+            class="diasHabiles"></textarea>
           <mat-hint class="hint">{{eventDescr.value.length}} / 200</mat-hint>
         </mat-form-field>
 
         
 
         <!-- tag color and all day -->
-        <div class=" tag-container">
+        <!-- <div class=" tag-container">
           <div class="campo mb-2">
             <mat-label>{{language.eventFormTexts[formTextsKeys.Color]}}</mat-label>
             <input matInput formControlName="{{formTextsKeys.Color}}" type="color" class="color-input">
@@ -57,9 +58,9 @@
               (toggleChange)="showDates()"><span
                 class="me-2 allday">{{language.eventFormTexts[formTextsKeys.IsAllDay]}}</span></mat-slide-toggle>
           </div>
-        </div>
+        </div> -->
 
-        <ng-container *ngIf="!model.isAllDay">
+        <ng-container >
 
           <!-- start date and time -->
           <div class=" date-container">
