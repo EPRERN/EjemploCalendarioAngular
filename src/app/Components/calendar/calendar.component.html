@@ -1,0 +1,105 @@
+<div class="page">
+  <div class="calendar-container">
+
+    <!-- header -->
+    <div class="date-info">
+      <!-- navigation months/years/days -->
+      <a (click)="selectPanel()" class="show-months-years">{{ calendarMonthYear }}</a>
+
+      <div class="month-displace">
+        <!-- language select -->
+        <!-- <select class="lang-select" [(ngModel)]="langSelected" (change)="setLanguage()" name="idioma">
+          <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
+        </select> -->
+
+        <!-- prev month -->
+        <a (click)="prevDatePanel()" mat-mini-fab>
+          <mat-icon>expand_less</mat-icon>
+        </a>
+        <!-- next month -->
+        <a (click)="nextDatePanel()" mat-mini-fab>
+          <mat-icon>expand_more</mat-icon>
+        </a>
+      </div>
+    </div>
+
+    <!-- days, months, years select -->
+    <div class="calendar">
+      <div id="daysPanel" *ngIf="panelSelected === panelsType.Days && !reloadChildComponent"
+        class="zoomIn overflow-auto">
+        <app-days [date]="selectedDate" [dayNames]="languageModel.shortDayNames"
+          (selectedDay)="setSelectedDate($event)"></app-days>
+      </div>
+
+      <div id="monthsPanel" *ngIf="panelSelected === panelsType.Months && !reloadChildComponent" class="zoomIn">
+        <app-months [date]="selectedDate" [monthsNames]="languageModel.shortMonthsNames"
+          (monthSelected)="monthHandler($event)"></app-months>
+      </div>
+
+      <div id="yearsPanel" *ngIf="panelSelected === panelsType.Years && !reloadChildComponent" class="zoomIn">
+        <app-years [year]="year" (yearSelected)="yearHandler($event)"></app-years>
+      </div>
+    </div>
+
+    <!-- goto selectors -->
+    <div class="goto-date-container">
+      <form (submit)="goToDate()">
+        <mat-form-field appearance="outline">
+          <mat-label>{{languageModel.pageElementsTexts[elementsKeys.DatePlaceHolderFormat]}}</mat-label>
+          <input id="dateToGo" [formControl]="dateForm" matInput (keyup)="onInputChange($event)" />
+          <mat-error *ngIf="dateForm.invalid">{{ errorDate }}</mat-error>
+
+          <button type="submit" (click)="goToDate()" form="dateForm" [disabled]="isBtnGoToDateDisabled" class="goto-btn"
+            matSuffix mat-raised-button aria-label="go to a date">
+            <mat-icon>schedule_send</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+      <a (click)="goToday()" style="background-color: rgb(56, 111, 162); " class="goto-today-btn" mat-raised-button aria-label="go today">
+        {{languageModel.pageElementsTexts[elementsKeys.BtnGoToday]}}
+      </a>
+    </div>
+
+    <hr class="separator" />
+
+    <!-- show or hide events -->
+    <div class="footer">
+      <div>
+        <button (click)="openAddEventDialog()" id="btnAddEvent" class="new-event-btn" mat-mini-fab
+          aria-label="Nuevo evento">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </div>
+
+      <a class="btn-events" (click)="showHideEvents()">
+
+        <span>{{btnEventsText}}</span>
+        <mat-icon id="iconEvent" class="iconChev">chevron_right</mat-icon>
+      </a>
+    </div>
+  </div>
+
+  <!-- events -->
+  <div id="events" class="events-container">
+    <div class="events-header">
+      <span class="dayName">{{fullDayName}}</span> <span class="date-format">{{selectedDate.getDate()}} {{
+        languageModel.fullMonthsNames[month]
+        }} {{year}}</span>
+    </div>
+    <div class="events-body">
+      <ng-container *ngIf="eventsOfTheDay.length > 0">
+        <app-event-tag *ngFor="let event of eventsOfTheDay" [event]="event" [language]="langSelected"
+          (reloadCalendar)="reloadComponent()"></app-event-tag>
+      </ng-container>
+    </div>
+    <div class="events-footer">
+      <button (click)="deleteAllDialog()" class="delete-all-btn" mat-stroked-button aria-label="delete event">
+        <mat-icon>delete_forever</mat-icon>
+        Borrar Todo
+      </button>
+      <button (click)="openAddEventDialog()" class="new-event-btn" mat-mini-fab aria-label="add event">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

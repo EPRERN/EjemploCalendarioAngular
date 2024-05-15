@@ -1,0 +1,50 @@
+.years {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  text-align: center;
+  color: var(--day-actual-month-color);
+  text-transform: lowercase;
+}
+
+.years a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  height: 74px;
+  width: calc(25% - 6px);
+  border-radius: 5px;
+  border: 3px solid transparent;
+}
+
+.years a:hover {
+  cursor: pointer;
+  border: 3px solid var(--active-border-color);
+  border-radius: 5px;
+}
+
+.actual {
+  background: var(--bg-text-fields);
+}
+
+.years a.selected {
+  border: 3px solid var(--active-border-color);
+  border-radius: 5px;
+}
+
+//=============================================
+// Material Design reemplazos
+//=============================================
+
+//years of this decade color
+.mat-mdc-outlined-button:not(:disabled) {
+  color: var(--day-actual-month-color);
+}
+
+//extra year color
+.mat-mdc-outlined-button:not(:disabled).prev-date,
+.mat-mdc-outlined-button:not(:disabled).extra-Year {
+  color: var(--day-another-month-color);
+}

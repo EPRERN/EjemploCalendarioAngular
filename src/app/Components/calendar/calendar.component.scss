@@ -1,0 +1,449 @@
+  //====================================
+  //estilos generales del calendario
+  //====================================
+  * {
+    --scrollbar-thumb-color: #111;
+    --scrollbar-track-color: #333;
+    --text-color: #b3b3b3;
+    --color-primary: #2d2d2d;
+    --bg-text-fields: #4d4d4d;
+    --btn-background: #605e5e;
+    --btn-background-hover: var(--text-color);
+    --btn-text-color: var(--text-color);
+    --btn-text-color-hover: var(--bg-text-fields);
+    --events-background: #383838;
+    --events-background-hover: #5c5c5c;
+    --light-text-color: var(--text-color);
+    --active-border-color: #737272;
+    --btn-save-backround: #666666;
+    --btn-save-color: #ffffff;
+    --btn-save-disabled-background: #262626;
+    --btn-save-disbaled-color: #605555;
+    --btn-cancel-backround: #262626;
+    --btn-cancel-color: #ffffff;
+    --btn-delete-backround: #ae0000;
+    --btn-delete-color: #ffffff;
+    --dialog-background: #383838;
+    --dialog-header-background: #2d2d2d;
+    --dialog-header-color: #ffffff;
+    --field-border-color: black;
+    --hint-form-color: #847d7d; //contador de caracteres de inputs
+    --day-with-events-color: #38f496;
+    --day-actual-month-color: #FFFFFF;
+    --day-another-month-color: #666666;
+    --day-extra-with-events-color: #6c756c;
+    --day-weekend-color: #f24a4a;
+
+    //estilos de scrollbar Firefox
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-track-color) var(--scrollbar-thumb-color);
+
+    //====================================
+    //Material Design reemplazos
+    //====================================
+    --mdc-theme-primary: var(--color-primary);
+    --mdc-theme-error: red;
+    --mdc-protected-button-container-color: var(--btn-background);
+    --mdc-dialog-container-color: transparent;
+    --mat-mdc-button-ripple-color: #7372726e;
+
+    //selected slider color
+    --mdc-switch-selected-focus-state-layer-color: #05af1b;
+    --mdc-switch-selected-handle-color: #05af1b;
+    --mdc-switch-selected-hover-state-layer-color: #05af1cd6;
+    --mdc-switch-selected-pressed-state-layer-color: #05af1b;
+    --mdc-switch-selected-focus-handle-color: #05af1b;
+    --mdc-switch-selected-hover-handle-color: #019b15;
+    --mdc-switch-selected-pressed-handle-color: #019b15;
+    --mdc-switch-selected-focus-track-color: #9c9c9c48;
+    --mdc-switch-selected-hover-track-color: #01ba0148;
+    --mdc-switch-selected-pressed-track-color: #d8d8d848;
+    --mdc-switch-selected-track-color: #9fa19f48;
+  }
+
+  .mat-mdc-unelevated-button[disabled][disabled] {
+    background: var(--btn-save-disabled-background);
+    color: var(--btn-save-disbaled-color);
+  }
+
+  mat-form-field {
+    width: 100%;
+    border-radius: 5px;
+    color: var(--text-color)
+  }
+
+  /* Para todos los elementos en WebKit (Chrome, Edge, Safari) */
+  /* Ancho de la barra de desplazamiento */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Color del pulgar de la barra de desplazamiento */
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+  }
+
+  /* Color de fondo de la barra de desplazamiento */
+  *::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track-color);
+  }
+
+  //=============================================
+  // GENERAL STYLES CALENDAR
+  //=============================================
+
+  .page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f2f2f2;
+  }
+
+  .overflow-auto {
+    display: flex;
+    overflow: auto;
+  }
+
+  .calendar-container {
+    width: clamp(305px, 100%, 500px);
+    color: #b3b3b3;
+    background: var(--color-primary);
+    border-radius: 10px;
+    overflow: auto;
+    z-index: 2;
+    transition: 0.3s ease-in-out;
+  }
+
+  .events-container {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    left: -11px;
+    gap: 1rem;
+    padding: 2rem;
+    background-color: var(--events-background);
+    color: white;
+    height: calc(643px - 4rem);
+    width: 300px;
+    z-index: 1;
+    transition: 0.3s ease-in-out;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .events-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .dayName {
+    text-transform: uppercase;
+  }
+
+  .events-body {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    flex: 1;
+    gap: 0.5rem;
+    overflow: auto;
+  }
+
+  .events-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+
+  .delete-all-btn.mat-mdc-outlined-button:not(:disabled) {
+    background-color: var(--btn-delete-backround);
+    color: var(--btn-delete-color);
+  }
+
+  .cancel-btn.mat-mdc-unelevated-button:not(:disabled) {
+    background: #9d9898;
+    color: white;
+  }
+
+  .date-format {
+    color: var(--light-text-color);
+    font-size: 16px;
+  }
+
+  .show-months-years {
+    cursor: pointer;
+    transition: 0.2s ease-in;
+  }
+
+  .show-months-years:hover {
+    color: var(--light-text-color);
+  }
+
+  .lang-select {
+    cursor: pointer;
+  }
+
+  .month-displace {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .calendar {
+    padding: 1rem;
+    min-height: 387px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .goto-date-container,
+  .date-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .date-info {
+    align-items: center;
+  }
+
+  .goto-date-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    align-items: flex-start;
+  }
+
+  .goto-btn {
+    background: var(--btn-background);
+    color: var(--btn-text-color);
+    border-radius: 0 4px 4px 0;
+    border-left: 1px solid var(--btn-text-color);
+    transition: 0.2s ease-in-out;
+    padding: 0;
+    margin: 2px;
+  }
+
+  .goto-btn:hover {
+    background: var(--btn-background-hover);
+    color: var(--btn-text-color-hover);
+  }
+
+  .goto-today-btn {
+    font-weight: 600;
+    margin-top: 1px;
+    
+    
+
+  }
+
+  .separator {
+    margin: 0 1rem;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    height: 56px;
+  }
+
+  .btn-events {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    color: var(--light-text-color);
+  }
+
+  .btn-events:hover {
+    color: rgb(226, 224, 224);
+  }
+
+  .p-2 {
+    padding: 1rem;
+  }
+
+  //=============================================
+  // Material Design reemplazos
+  //=============================================
+
+  //btns sup de navegacion calendario
+  .mat-mdc-mini-fab:not(.mdc-fab--extended) {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  //btns goto y today
+  .mat-mdc-raised-button.mat-mdc-button-base {
+    height: 50px;
+  }
+
+  .mat-mdc-raised-button.mat-mdc-raised-button>.mat-icon {
+    margin: 0;
+  }
+
+  //btn raised color text and background
+  .mat-mdc-raised-button.mat-mdc-raised-button:not(:disabled) {
+    background: var(--btn-background);
+    color: var(--btn-text-color);
+  }
+
+  //btns nuevo evento
+  .mat-mdc-fab.mat-accent {
+    background: var(--btn-background);
+    color: var(--btn-text-color);
+  }
+
+  //form fields background
+  .mat-mdc-text-field-wrapper {
+    background: var(--bg-text-fields);
+    border-radius: 5px;
+  }
+
+  //form field text color
+  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: var(--btn-text-color);
+  }
+
+  //form field label color
+  .mdc-text-field:not(.mdc-text-field--invalid):not(.mat-form-field-invalid) .mdc-floating-label {
+    color: var(--btn-text-color);
+  }
+
+  //form field cursor color
+  .mdc-text-field .mdc-text-field__input {
+    caret-color: var(--text-color);
+  }
+
+  //mat select text color
+  .mat-mdc-select-value {
+    color: var(--text-color)
+  }
+
+  //=============================================
+  // ANIMATIONS
+  //=============================================
+
+  /*=== ZOOM IN  ===*/
+  @keyframes zoomIn {
+    0% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .zoomIn {
+    animation-name: zoomIn;
+    animation-duration: 0.4s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+  }
+
+  .iconChev {
+    transition: 0.3s ease-in-out;
+  }
+
+  .rotate-icon {
+    transform: rotate(180deg);
+  }
+
+  /*=== SLIDE RIGHT IN  ===*/
+  @keyframes slideRightIn {
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+
+  }
+
+  /*=== SLIDE LEFT OUT  ===*/
+  @keyframes slideLeftOut {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .slideRightIn {
+    animation: slideRightIn 0.3s ease-in-out;
+  }
+
+  .slideLeftOut {
+    animation: slideLeftOut 0.3s ease-in-out;
+  }
+
+  // /*=== ZOOM OUT  ===*/
+  // @keyframes zoomOut {
+  //   0% {
+  //     transform: scale(1);
+  //     opacity: 1;
+  //   }
+
+  //   100% {
+  //     transform: scale(1.8);
+  //     opacity: 0;
+  //   }
+  // }
+
+  // .zoomOut {
+  //   animation-name: zoomOut;
+  //   animation-duration: 0.4s;
+  //   animation-timing-function: ease;
+  //   animation-fill-mode: forwards;
+  // }
+
+  // /*=== SLIDE IN UP  ===*/
+  // @keyframes slideInUp {
+  //   from {
+  //     transform: translateY(100%);
+  //     opacity: 0;
+  //   }
+
+  //   to {
+  //     transform: translateY(0);
+  //     opacity: 1;
+  //   }
+  // }
+
+
+  // .slideInUp {
+  //   animation: slideInUp 0.5s ease-out;
+  // }
+
+
+  // /*=== SLIDE IN DOW  ===*/
+  // @keyframes slideInDown {
+  //   from {
+  //     transform: translateY(-100%);
+  //     opacity: 0;
+  //   }
+
+  //   to {
+  //     transform: translateY(0);
+  //     opacity: 1;
+  //   }
+  // }
+
+  // .slideInDown {
+  //   animation: slideInDown 0.5s ease-out;
+  // }

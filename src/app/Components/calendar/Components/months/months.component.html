@@ -1,0 +1,8 @@
+<div class="months">
+  <a *ngFor="let month of months" [ngClass]="{
+        'actual': month.isCurrentMonth,
+        'selected': month.isSelected
+      }" (click)="setSelectMonth(month)" mat-stroked-button>
+    {{ month.name }}
+  </a>
+</div>

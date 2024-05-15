@@ -1,0 +1,16 @@
+<div class="delete-container">
+  <div class="modal-header">
+    <span class="modal-title">{{language.pageElementsTexts[textsKeys.DeleteTitleDialog]}}</span>
+
+  </div>
+  <div class="modal-body">
+    <mat-icon>highlight_off</mat-icon>
+    <p>{{language.pageElementsTexts[textsKeys.DeleteMessageDialog]}}</p>
+  </div>
+  <div class="modal-footer">
+    <button (click)="confirm()" class="delete-all-btn" mat-stroked-button
+      aria-label="delete event">{{language.pageElementsTexts[textsKeys.DeleteConfirmText]}}</button>
+    <button (click)="closeModal()" class="cancel-btn"
+      mat-flat-button>{{language.pageElementsTexts[textsKeys.DeleteCancelText]}}</button>
+  </div>
+</div>
