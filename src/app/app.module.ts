@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarComponent } from './Components';
 import { HttpClientModule } from '@angular/common/http';
-import {MatSelectModule} from '@angular/material/select'; 
+import {MatSelectModule} from '@angular/material/select';
+import { FeriadosComponent } from './components/feriados/feriados.component'; 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, FeriadosComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

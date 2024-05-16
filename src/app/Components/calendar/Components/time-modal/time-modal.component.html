@@ -21,7 +21,8 @@
         <label class="label">{{language.eventFormTexts[formTextsKeys.HourText]}}</label>
         <mat-select [(value)]="model.hour">
           <ng-container *ngFor="let hour of hours">
-            <mat-option [value]="hour">{{ hour | number: '2.0' }}</mat-option>
+            <mat-option [value]="hour">{{hora}}</mat-option>
+            <!-- <mat-option [value]="hour">{{ hour | number: '2.0' }}</mat-option> -->
           </ng-container>
         </mat-select>
       </mat-form-field>
@@ -33,7 +34,8 @@
         <label class="label">{{language.eventFormTexts[formTextsKeys.MinutesText]}}</label>
         <mat-select [(value)]="model.minute">
           <ng-container *ngFor="let minute of minutes">
-            <mat-option [value]="minute">{{ minute | number: '2.0' }}</mat-option>
+            <mat-option [value]="minute">{{hora}}</mat-option>
+            <!-- <mat-option [value]="minute">{{ minute | number: '2.0' }}</mat-option> -->
           </ng-container>
         </mat-select>
       </mat-form-field>

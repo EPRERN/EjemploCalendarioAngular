@@ -38,6 +38,9 @@ export class TimeModalComponent implements OnInit {
   title: string = '';
   date: string = '';
 
+  hora:string = '1'
+  minutos:string = '9'
+
   model = {
     hour: 0,
     minute: 0,
@@ -74,6 +77,9 @@ export class TimeModalComponent implements OnInit {
 
       this.title = this.language.eventFormTexts[FormFieldKeys.TimeModalTitle];
       this.date = this.data.date.toLocaleDateString();
+
+      this.model.hour = Number(this.data.time = '12') 
+      this.model.minute = Number(this.data.time = '12')
 
       if (this.data.time != null && this.data.time != '') {
         this.model.hour = Number(this.data.time.split(':')[0]);

@@ -38,11 +38,12 @@
         <!-- description -->
         <mat-form-field appearance="outline"> 
           <mat-label>Días hábiles medición</mat-label>
-   
-          <textarea matInput #eventDescr formControlName="{{formTextsKeys.DiasHabiles}}" maxlength="100"
-            class="diasHabiles"></textarea>
-          <mat-hint class="hint">{{eventDescr.value.length}} / 200</mat-hint>
+          <input matInput formControlName="{{formTextsKeys.DiasHabiles}}" maxlength="100" class="diasHabiles">
+          <mat-hint class="hint">{{ form.get(formTextsKeys.DiasHabiles)?.value.length }} / 200</mat-hint>
         </mat-form-field>
+        
+        
+        
 
         
 

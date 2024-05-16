@@ -138,10 +138,16 @@ export class EventFormComponent implements OnInit, OnDestroy {
     'EL BOLSON'
   ];
   
-
   onSubmit() {
-    this.dialogRef.close(this.getUpdatedCalendarEvent());
+    const startDate = this.form.get(FormFieldKeys.StartDate)?.value;
+    const endDate = this.form.get(FormFieldKeys.EndDate)?.value;
+    const diasHabiles = this.calcularDiasHabiles(startDate, endDate);
+    this.form.get(FormFieldKeys.DiasHabiles)?.setValue(diasHabiles);
+    // No es necesario cerrar el diálogo aquí, ya que la actualización del campo ya se ha realizado.
   }
+  
+  
+  
 
   /** Abre el modal para seleccionar el horario del evento. */
   openTimeDialog(isStartTime: boolean = true) {
@@ -408,6 +414,36 @@ export class EventFormComponent implements OnInit, OnDestroy {
         ? (this.model.startDate = dateTime)
         : (this.model.endDate = dateTime);
     }
+  }
+
+
+
+
+  calcularDiasHabiles(startDate: Date, endDate: Date): number {
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    let start = new Date(startDate);
+    let end = new Date(endDate);
+
+    // Si startDate es posterior a endDate, se intercambian las fechas
+    if (start > end) {
+      const temp = start;
+      start = end;
+      end = temp;
+    }
+
+    let count = 0;
+    let currentDate = start;
+
+    while (currentDate <= end) {
+      const dayOfWeek = currentDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        // Si no es sábado (6) ni domingo (0)
+        count++;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return count;
   }
 
   /** Devuelve un evento por defecto. */
