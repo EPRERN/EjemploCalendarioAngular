@@ -206,6 +206,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.updateTextButtonAndIcon();
     this.updateGoToDateFormLanguage();
     this.reloadComponent();
+    this.loadEvents()
   }
 
   /**  selecciona el panel del calendario (dias, meses o años).*/
