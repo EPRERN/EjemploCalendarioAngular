@@ -1,4 +1,4 @@
-import { DatePipe, NgIf, NgStyle } from '@angular/common';
+import { CommonModule, DatePipe, NgIf, NgStyle } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -12,11 +12,12 @@ import { MatIconModule } from '@angular/material/icon';
 import {
   CalendarEvent,
   CalendarEventForm,
-  ENGLISH,
+  
   ErrorKeys,
   LANGUAGES,
   LanguageModel,
   Languages,
+  SPANISH,
 } from '../../Models';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +28,7 @@ import { EventFormComponent } from '../event-form/event-form.component';
 @Component({
   selector: 'app-event-tag',
   standalone: true,
-  imports: [MatIconModule, MatRippleModule, NgStyle, DatePipe, NgIf],
+  imports: [MatIconModule,CommonModule, MatRippleModule, NgStyle, DatePipe, NgIf],
   templateUrl: './event-tag.component.html',
   styleUrls: ['./event-tag.component.scss'],
 })
@@ -36,8 +37,8 @@ export class EventTagComponent implements OnInit, OnDestroy {
   events: CalendarEvent[] = [];
 
   @Input() event!: CalendarEvent;
-  @Input() language: Languages = Languages.ENGLISH;
-  languageModel: LanguageModel = ENGLISH;
+  @Input() language: Languages = Languages.SPANISH;
+  languageModel: LanguageModel = SPANISH;
 
   @Output() reloadCalendar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -70,9 +71,9 @@ export class EventTagComponent implements OnInit, OnDestroy {
       );
   }
   
-  openEditModal() {
+  openEditModal(eventItem: CalendarEvent) {
     const eventModel: CalendarEventForm = {
-      ...this.event,
+      ...eventItem,
       isEdit: true,
       language: this.language,
     };
@@ -95,7 +96,7 @@ export class EventTagComponent implements OnInit, OnDestroy {
         // AQUI IRIA EL CODIGO PARA ACTUALIZAR EL EVENTO EN EL BACKEND
         //==================================================================================================
   
-        const response = this.calendarService.updateEvent(this.event.id, result);
+        const response = this.calendarService.updateEvent(eventItem.id, result);
   
         if (!response) {
           console.error(
@@ -109,13 +110,12 @@ export class EventTagComponent implements OnInit, OnDestroy {
       });
   }
   
-
-  deleteEvent() {
+  deleteEvent(eventItem: CalendarEvent) {
     //==================================================================================================
     // AQUI IRIA EL CODIGO PARA ELIMINAR EL EVENTO DEL BACKEND
     //==================================================================================================
   
-    this.calendarService.deleteEvent(this.event.id, this.event)
+    this.calendarService.deleteEvent(eventItem.id)
       .subscribe((response) => {
         if (!response) {
           console.error(
@@ -128,5 +128,6 @@ export class EventTagComponent implements OnInit, OnDestroy {
   
     //==================================================================================================
   }
+  
   
 }

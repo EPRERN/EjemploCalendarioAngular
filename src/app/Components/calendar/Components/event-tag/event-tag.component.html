@@ -1,29 +1,29 @@
-<div class="event-container">
-  <div class="event-tag" [ngStyle]="{'background': event.color}"></div>
-  <a class="event-data" mat-ripple (click)="openEditModal()">
-    <span class="event-title">{{event.title}}</span>
+<div class="event-container" *ngFor="let eventItem of events">
+  <div class="event-tag" [ngStyle]="{'background': eventItem.color}"></div>
+  <a class="event-data" mat-ripple (click)="openEditModal(eventItem)">
+    <span class="event-title">{{eventItem.title}}</span>
     <div class="event-time">
       <div class="date">
-        <span class="date-day" *ngIf="event.endDate">{{event.startDate | date:'dd/MM/yyyy'}}</span>
-        <span *ngIf="event.endDate" class="separator"></span>
-        <span>{{event.startDate | date:'hh:mm a'}} </span>
+        <span class="date-day" *ngIf="eventItem.endDate">{{eventItem.startDate | date:'dd/MM/yyyy'}}</span>
+        <span *ngIf="eventItem.endDate" class="separator"></span>
+        <span>{{eventItem.startDate | date:'hh:mm a'}} </span>
       </div>
 
-      <ng-container *ngIf="event.endDate">
+      <ng-container *ngIf="eventItem.endDate">
 
         <span> - </span>
 
         <div class="date">
-          <span class="date-day"> {{event.endDate | date:'dd/MM/yyyy'}}</span>
+          <span class="date-day"> {{eventItem.endDate | date:'dd/MM/yyyy'}}</span>
           <span class="separator"></span>
 
-          <span>{{event.endDate | date:'hh:mm a'}} </span>
+          <span>{{eventItem.endDate | date:'hh:mm a'}} </span>
         </div>
       </ng-container>
     </div>
   </a>
   <div class="p-2">
-    <a (click)="deleteEvent()" class="delete-event" mat-ripple>
+    <a (click)="deleteEvent(eventItem)" class="delete-event" mat-ripple>
       <mat-icon>delete_forever</mat-icon>
     </a>
   </div>

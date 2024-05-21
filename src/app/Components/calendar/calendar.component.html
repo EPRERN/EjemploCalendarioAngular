@@ -7,16 +7,11 @@
       <a (click)="selectPanel()" class="show-months-years">{{ calendarMonthYear }}</a>
 
       <div class="month-displace">
-        <!-- language select -->
-        <!-- <select class="lang-select" [(ngModel)]="langSelected" (change)="setLanguage()" name="idioma">
-          <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
-        </select> -->
+   
 
-        <!-- prev month -->
         <a (click)="prevDatePanel()" mat-mini-fab>
           <mat-icon>expand_less</mat-icon>
         </a>
-        <!-- next month -->
         <a (click)="nextDatePanel()" mat-mini-fab>
           <mat-icon>expand_more</mat-icon>
         </a>
@@ -90,7 +85,10 @@
       <ng-container *ngIf="eventsOfTheDay.length > 0">
         <app-event-tag *ngFor="let event of eventsOfTheDay" [event]="event" [language]="langSelected"
           (reloadCalendar)="reloadComponent()"></app-event-tag>
-      </ng-container>
+        
+        
+        </ng-container>
+      
     </div>
     <div class="events-footer">
       <button (click)="deleteAllDialog()" class="delete-all-btn" mat-stroked-button aria-label="delete event">

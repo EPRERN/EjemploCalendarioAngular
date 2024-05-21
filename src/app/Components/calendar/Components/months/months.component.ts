@@ -1,7 +1,7 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { CalendarMonth, ENGLISH } from '../../Models';
+import { CalendarMonth,  SPANISH } from '../../Models';
 
 @Component({
   selector: 'app-months',
@@ -15,7 +15,7 @@ export class MonthsComponent implements OnInit {
   @Input() date = new Date();
 
   /** Nombres de los meses en formato corto.*/
-  @Input() monthsNames = ENGLISH.shortMonthsNames;
+  @Input() monthsNames = SPANISH.shortMonthsNames;
 
   /** Devuelve el mes seleccionado. */
   @Output() monthSelected: EventEmitter<number> = new EventEmitter<number>();

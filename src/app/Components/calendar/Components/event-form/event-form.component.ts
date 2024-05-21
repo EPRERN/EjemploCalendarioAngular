@@ -32,7 +32,7 @@ import {
   TimeDateModal,
 } from '../../Models';
 import {
-  ENGLISH,
+  
   EventFormTextsKeys,
   LANGUAGES,
   SPANISH,
@@ -48,6 +48,7 @@ import {
 } from '../../Validators/event-field.validations';
 import { TimeModalComponent } from '../time-modal/time-modal.component';
 import { MatSelectModule } from '@angular/material/select';
+import { CalendarService } from '../../Services';
 
 @Component({
   selector: 'app-event-form',
@@ -102,8 +103,10 @@ export class EventFormComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<EventFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CalendarEventForm,
     private formbuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private calendarService: CalendarService // Añade esta línea
   ) {}
+  
 
   ngOnInit(): void {
     if (this.data) {
@@ -142,9 +145,22 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const startDate = this.form.get(FormFieldKeys.StartDate)?.value;
     const endDate = this.form.get(FormFieldKeys.EndDate)?.value;
     const diasHabiles = this.calcularDiasHabiles(startDate, endDate);
+  
     this.form.get(FormFieldKeys.DiasHabiles)?.setValue(diasHabiles);
-    // No es necesario cerrar el diálogo aquí, ya que la actualización del campo ya se ha realizado.
+  
+    const updatedEvent = this.getUpdatedCalendarEvent();
+  
+    if (this.model.isEdit) {
+      this.calendarService.updateEvent(this.model.id, updatedEvent).subscribe(() => {
+        this.dialogRef.close(updatedEvent);
+      });
+    } else {
+      this.calendarService.addEvent(updatedEvent).subscribe((newEvent) => {
+        this.dialogRef.close(newEvent);
+      });
+    }
   }
+  
   
   
   

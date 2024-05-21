@@ -33,12 +33,10 @@ export function eventFieldValidation(
       return descriptionValidation(form, languageSelected);
     case EventFieldType.StartDate:
       return startDateValidation(form);
-    case EventFieldType.StartTime:
-      return startTimeValidation(form);
+
     case EventFieldType.EndDate:
       return endDateValidation(form);
-    case EventFieldType.EndTime:
-      return endTimeValidation(form);
+
     default:
       return '';
   }
@@ -102,24 +100,7 @@ function startDateValidation(form: FormGroup): string {
   return '';
 }
 
-/**
- * Valída el campo de hora de inicio.
- * @param form Formulario con los datos para validar.
- * @returns Un mensaje con el resultado de la validación (vacio si es correcto: '').
- */
-function startTimeValidation(form: FormGroup): string {
-  var field = form.get('startTime')!;
 
-  if (field.hasError(ErrorKeys.StartTimeRequired)) {
-    return field.getError(ErrorKeys.StartTimeRequired).message;
-  }
-
-  if (field.hasError(ErrorKeys.TimeInvalid)) {
-    return field.getError(ErrorKeys.TimeInvalid).message;
-  }
-
-  return '';
-}
 
 /**
  * Valída el campo de fecha de fin.
@@ -152,25 +133,4 @@ function endDateValidation(form: FormGroup): string {
   return '';
 }
 
-/**
- * Valída el campo de hora de inicio.
- * @param form Formulario con los datos para validar.
- * @returns Un mensaje con el resultado de la validación (vacio si es correcto: '').
- */
-function endTimeValidation(form: FormGroup): string {
-  var field = form.get('endTime')!;
 
-  if (field.hasError(ErrorKeys.EndTimeRequired)) {
-    return field.getError(ErrorKeys.EndTimeRequired).message;
-  }
-
-  if (field.hasError(ErrorKeys.TimeInvalid)) {
-    return field.getError(ErrorKeys.TimeInvalid).message;
-  }
-
-  if (field.hasError(ErrorKeys.EndDatePrevStartDate)) {
-    return field.getError(ErrorKeys.EndDatePrevStartDate).message;
-  }
-
-  return '';
-}

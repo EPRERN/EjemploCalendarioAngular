@@ -24,7 +24,7 @@ import {
   CalendarDay,
   CalendarEvent,
   CalendarPanel,
-  ENGLISH,
+  
   ErrorKeys,
   LANGUAGES,
   LanguageModel,
@@ -102,8 +102,23 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.showHideEvents();
     this.setLanguage();
     this.loadEvents(); // Cargar los eventos al iniciar el componente
+    console.log('Selected Date:', this.selectedDate);
+    console.log('Day Names:', this.languageModel.shortDayNames);
+    this.setInitialDateWithDefaultTime();
     
   }
+
+
+  private setInitialDateWithDefaultTime(): void {
+    // Establece la hora por defecto que desees, por ejemplo, 12:00 (mediodía)
+    const defaultHour = 12;
+    const defaultMinutes = 0;
+    const defaultSeconds = 0;
+
+    // Establece la hora por defecto en la fecha seleccionada
+    this.selectedDate.setHours(defaultHour, defaultMinutes, defaultSeconds);
+  }
+
 
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
@@ -309,16 +324,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
       !this.dateForm.hasError(ErrorKeys.DateInvalid)
     ) {
       const [day, month, year] = this.dateForm.value!.split('/').map(Number);
-
-      this.year = year;
-      this.month = month - 1;
+  
+      // Modificación aquí
       this.selectedDate = new Date(year, month - 1, day);
-
+      // Fin de la modificación
+  
       this.panelSelected = CalendarPanel.Days;
       this.reloadComponent();
-      
     }
   }
+  
+
+
+
 
   /** Muestra u oculta el panel de eventos. */
   showHideEvents() {
@@ -520,3 +538,4 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }, 250);
   }
 }
+

@@ -2,8 +2,7 @@ import { NgClass, NgFor, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
-import { getDaysForMonthPage } from 'src/app/Components/Data/Data';
-import { CalendarDay, CalendarEvent, DateType, ENGLISH } from '../../Models';
+import { CalendarDay, CalendarEvent, DateType,  SPANISH } from '../../Models';
 import { CalendarService } from '../../Services';
 
 @Component({
@@ -14,15 +13,17 @@ import { CalendarService } from '../../Services';
   styleUrls: ['./days.component.scss'],
 })
 export class DaysComponent implements OnInit {
+
+  
   dayType = DateType;
 
   /** Fecha seleccionada. */
   @Input() date!: Date;
 
   /** Nombre de los días de la semana en formato corto. */
-  @Input() dayNames = ENGLISH.shortDayNames;
+  @Input() dayNames = SPANISH.shortDayNames;
 
-  /**  Devuelve el día seleccionado en formato CalendarDay. */
+  /** Devuelve el día seleccionado en formato CalendarDay. */
   @Output() selectedDay = new EventEmitter<CalendarDay>();
 
   month = 0;
@@ -37,21 +38,25 @@ export class DaysComponent implements OnInit {
     this.loadDays();
   }
 
+
   /** Carga los días del mes seleccionado, los eventos y establece el día seleccionado por defecto. */
+ 
   loadDays() {
     this.month = this.date.getMonth();
     this.year = this.date.getFullYear();
-
-    //==================================================================================================
-    // AQUI IRIA EL CODIGO PARA OBTENER LOS EVENTOS DEL MES EN EL BACKEND PASANDO LOS daysMonth
-    //==================================================================================================
-
-    this.daysMonth = this.calendarService.getDaysForMonthPage(this.date);
-
-    //==================================================================================================
-
-    this.setDefaultSelectDay();
+  
+    this.calendarService.getDaysForMonthPage(this.date).subscribe(days => {
+      this.daysMonth = days;
+      this.setDefaultSelectDay();
+    }, error => {
+      console.error('Error al obtener los días del mes:', error);
+    });
+  
+    // No necesitas manejar los eventos aquí, ya que se incluyen en la respuesta de getDaysForMonthPage
   }
+  
+
+  
 
   /** Establece el día seleccionado por defecto. */
   setDefaultSelectDay() {

@@ -7,16 +7,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarComponent } from './Components';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSelectModule} from '@angular/material/select';
-import { FeriadosComponent } from './components/feriados/feriados.component'; 
+import { CommonModule } from '@angular/common';
+
+
+
 @NgModule({
-  declarations: [AppComponent, FeriadosComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     CalendarComponent,
     HttpClientModule,
-    MatSelectModule
+    MatSelectModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent],
