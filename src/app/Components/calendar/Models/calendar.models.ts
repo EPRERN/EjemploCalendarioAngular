@@ -24,7 +24,7 @@ export enum FormFieldKeys {
   IsAllDay = 'isAllDay',
   TimeModalTitle = 'timeModalTitle',
   distritos = 'distritos',
-  Date = "Date",
+  selectedDate = "selectedDate",
 
 }
 
@@ -35,7 +35,7 @@ export interface CalendarDay {
   isSelected: boolean;
   isToday: boolean;
   dayOfWeek: number;
-  date: Date;
+  selectedDate: Date;
 }
 
 export interface CalendarEvent {
@@ -47,7 +47,7 @@ export interface CalendarEvent {
   color: string;
   isAllDay: boolean;
   distritos: string ;
-  date:Date;
+  selectedDate:Date;
 
 
 }
@@ -89,6 +89,6 @@ export function getDefaultCalendarEvent(): CalendarEventForm {
     isEdit: false,
     language: Languages.SPANISH,
     distritos:'',
-    date: new Date()
+    selectedDate: new Date()
   };
 }

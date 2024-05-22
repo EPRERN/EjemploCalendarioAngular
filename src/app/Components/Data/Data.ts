@@ -16,7 +16,7 @@ export function getDaysForMonthPage(date: Date, calendarService: CalendarService
   const allDays = [...daysBeforeMonth, ...monthDays, ...daysAfterMonth];
 
   const eventObservables = allDays.map(day => 
-    getEventsOfTheDay(day.date, calendarService).pipe(
+    getEventsOfTheDay(day.selectedDate, calendarService).pipe(
       map(events => ({
         ...day,
         events: events
@@ -68,70 +68,6 @@ export function deleteAllEventsOfTheDay(date: Date, calendarService: CalendarSer
   );
 }
 
-
-/**Ajusta el año y el mes para el mes pasado */
-function getPreviousMonthAndItsYear(
-  month: number,
-  year: number
-): { month: number; year: number } {
-  if (month === 0) {
-    month = 11;
-    year -= 1;
-  } else {
-    month -= 1;
-  }
-
-  return { month, year };
-}
-
-/**Ajusta el año y el mes para el mes siguiente */
-function getNextMonthAndItsYear(
-  month: number,
-  year: number
-): { month: number; year: number } {
-  if (month === 11) {
-    month = 0;
-    year += 1;
-  } else {
-    month += 1;
-  }
-
-  return { month, year };
-}
-
-
-
-
-
-
-/**
- * Obtiene los días de un mes.
- * @param month  Mes del que se quieren obtener los días.
- * @param year  Año del que se quieren obtener los días.
- * @returns  Una lista de días de tipo Date[].
- */
-function getDaysInMonth(month: number, year: number): Date[] {
-  const days: Date[] = [];
-
-  const date = new Date(year, month, 1);
-
-  while (date.getMonth() === month) {
-    days.push(new Date(date));
-    date.setDate(date.getDate() + 1);
-  }
-
-  return days;
-}
-
-
-
-
-////////////////////ver como hacer esa logica 
-function generateDayId(): number {
-  const timestamp = Date.now(); // fecha y hora actual en milisegundos
-  const randomNum = Math.floor(Math.random() * 1000000); // número aleatorio entre 0 y 999999
-  return timestamp + randomNum;
-}
 
 
 
@@ -196,7 +132,7 @@ function createCalendarDay(date: Date, dayType: DateType, events: CalendarEvent[
     isSelected: false,
     isToday: isToday(date),
     dayOfWeek: date.getDay(),
-    date: new Date(date),
+    selectedDate: new Date(date),
   };
 }
 
@@ -271,4 +207,117 @@ function isEventOfTheDay(date: Date, eventStartDate: Date): boolean {
   );
   console.log(`Date ${date} is the same day as event starting ${eventStartDate}: ${isSameDay}`);
   return isSameDay;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**Ajusta el año y el mes para el mes pasado */
+function getPreviousMonthAndItsYear(
+  month: number,
+  year: number
+): { month: number; year: number } {
+  if (month === 0) {
+    month = 11;
+    year -= 1;
+  } else {
+    month -= 1;
+  }
+
+  return { month, year };
+}
+
+/**Ajusta el año y el mes para el mes siguiente */
+function getNextMonthAndItsYear(
+  month: number,
+  year: number
+): { month: number; year: number } {
+  if (month === 11) {
+    month = 0;
+    year += 1;
+  } else {
+    month += 1;
+  }
+
+  return { month, year };
+}
+
+
+
+
+
+
+/**
+ * Obtiene los días de un mes.
+ * @param month  Mes del que se quieren obtener los días.
+ * @param year  Año del que se quieren obtener los días.
+ * @returns  Una lista de días de tipo Date[].
+ */
+function getDaysInMonth(month: number, year: number): Date[] {
+  const days: Date[] = [];
+
+  const date = new Date(year, month, 1);
+
+  while (date.getMonth() === month) {
+    days.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+
+  return days;
+}
+
+
+
+
+////////////////////ver como hacer esa logica 
+function generateDayId(): number {
+  const timestamp = Date.now(); // fecha y hora actual en milisegundos
+  const randomNum = Math.floor(Math.random() * 1000000); // número aleatorio entre 0 y 999999
+  return timestamp + randomNum;
 }

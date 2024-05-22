@@ -46,18 +46,6 @@ import {
 import { TimeModalComponent } from '../time-modal/time-modal.component';
 import { MatSelectModule } from '@angular/material/select';
 import { CalendarService } from '../../Services';
-
-
-
-
-
-
-
-
-
-
-
-
 @Component({
   selector: 'app-event-form',
   standalone: true,
@@ -83,6 +71,9 @@ import { CalendarService } from '../../Services';
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.scss'],
 })
+
+
+
 
 export class EventFormComponent implements OnInit, OnDestroy {
 
@@ -237,7 +228,7 @@ private getUpdatedCalendarEvent(): CalendarEvent {
     color: this.form.get(FormFieldKeys.Color)?.value,
     isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
     distritos: this.form.get(FormFieldKeys.distritos)?.value,
-    date: this.form.get(FormFieldKeys.Date)?.value, // Agregar el campo date
+    selectedDate: this.form.get(FormFieldKeys.selectedDate)?.value, // Agregar el campo date
   };
 
   if (output.isAllDay) {
@@ -278,9 +269,7 @@ private getUpdatedCalendarEvent(): CalendarEvent {
     console.log('Datos del evento:', this.model); // Verifica los datos del evento recibidos
     this.form = this.formbuilder.group({
       [FormFieldKeys.Id]: 0,
-      [FormFieldKeys.Title]: [
-        
-      ],
+      [FormFieldKeys.Title]: [ ],
       [FormFieldKeys.DiasHabiles]: ['', [Validators.maxLength(200)]],
       [FormFieldKeys.StartDate]: ['', [startDateValidation(this.language)]],
       [FormFieldKeys.StartTime]: ['', [startTimeValidation(this.language)]],
@@ -289,7 +278,7 @@ private getUpdatedCalendarEvent(): CalendarEvent {
       [FormFieldKeys.Color]: ['#AD0000'],
       [FormFieldKeys.IsAllDay]: [false],
       [FormFieldKeys.distritos]: [],
-      // [FormFieldKeys.diasHabiles]: [0],
+      
       
       
     });
@@ -487,7 +476,7 @@ private getUpdatedCalendarEvent(): CalendarEvent {
       isEdit: false,
       language: this.data.language,
       distritos:'',
-      date: new Date()
+      selectedDate: new Date()
 
     };
   }

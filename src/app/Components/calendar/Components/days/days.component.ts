@@ -71,7 +71,7 @@ export class DaysComponent implements OnInit {
   selectDay(day: CalendarDay) {
     this.daysMonth.forEach((d) => (d.isSelected = false));
     day.isSelected = true;
-    day.date = new Date(this.year, this.month, day.number);
+    day.selectedDate = new Date(this.year, this.month, day.number);
 
     this.selectedDay.emit(day);
   }

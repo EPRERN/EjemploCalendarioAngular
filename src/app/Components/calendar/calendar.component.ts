@@ -242,9 +242,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     console.log('Día Seleccionado: ...... ', selected);
     setTimeout(() => {
       // Ajustar la hora a medianoche (00:00:00)
-      selected.date.setHours(0, 0, 0, 0);
-      this.selectedDate = selected.date;
-      this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.date.getDay())];
+      selected.selectedDate.setHours(0, 0, 0, 0);
+      this.selectedDate = selected.selectedDate;
+      this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
       this.eventsOfTheDay = selected.events;
       console.log('Los eventos en el Día Seleccionado son :.........', selected.events);
     });
