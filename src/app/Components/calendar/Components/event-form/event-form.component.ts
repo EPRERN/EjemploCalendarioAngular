@@ -7,8 +7,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
-
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule, MatOptionModule, MatRippleModule } from '@angular/material/core';
@@ -32,7 +30,6 @@ import {
   TimeDateModal,
 } from '../../Models';
 import {
-  
   EventFormTextsKeys,
   LANGUAGES,
   SPANISH,
@@ -49,6 +46,17 @@ import {
 import { TimeModalComponent } from '../time-modal/time-modal.component';
 import { MatSelectModule } from '@angular/material/select';
 import { CalendarService } from '../../Services';
+
+
+
+
+
+
+
+
+
+
+
 
 @Component({
   selector: 'app-event-form',
@@ -75,7 +83,10 @@ import { CalendarService } from '../../Services';
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.scss'],
 })
+
 export class EventFormComponent implements OnInit, OnDestroy {
+
+  
   onDestroy$: Subject<boolean> = new Subject();
 
   model: CalendarEventForm = this.createDefaultEvent();
@@ -216,26 +227,27 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   /** Devuelve el evento actualizado con los datos del formulario. */
-  private getUpdatedCalendarEvent(): CalendarEvent {
-    const output: CalendarEvent = {
-      id: this.model.id,
-      title: this.form.get(FormFieldKeys.Title)?.value,
-      diasHabiles: this.form.get(FormFieldKeys.DiasHabiles)?.value,
-      startDate: this.createDate(),
-      endDate: this.createDate(false),
-      color: this.form.get(FormFieldKeys.Color)?.value,
-      isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
-      distritos: this.form.get(FormFieldKeys.distritos)?.value,
-            // diasHabiles:this.model.diasHabiles
-    };
+private getUpdatedCalendarEvent(): CalendarEvent {
+  const output: CalendarEvent = {
+    id: this.model.id,
+    title: this.form.get(FormFieldKeys.Title)?.value,
+    diasHabiles: this.form.get(FormFieldKeys.DiasHabiles)?.value,
+    startDate: this.createDate(),
+    endDate: this.createDate(false),
+    color: this.form.get(FormFieldKeys.Color)?.value,
+    isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
+    distritos: this.form.get(FormFieldKeys.distritos)?.value,
+    date: this.form.get(FormFieldKeys.Date)?.value, // Agregar el campo date
+  };
 
-    if (output.isAllDay) {
-      output.startDate.setHours(0, 0, 0, 0);
-      output.endDate = undefined;
-    }
-
-    return output;
+  if (output.isAllDay) {
+    output.startDate.setHours(0, 0, 0, 0);
+    output.endDate = undefined;
   }
+
+  return output;
+}
+
 
   /** Crea una fecha y hora a partir de los valores del formulario.*/
   private createDate(isStartDate: boolean = true): Date {
@@ -475,7 +487,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       isEdit: false,
       language: this.data.language,
       distritos:'',
-      // diasHabiles:0
+      date: new Date()
+
     };
   }
 }

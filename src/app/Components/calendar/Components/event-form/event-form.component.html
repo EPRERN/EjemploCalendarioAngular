@@ -9,59 +9,42 @@
     </button>
   </div>
 
+
+
+  
+
   <div class="form-body">
     <form id="eventForm" (submit)="onSubmit()" [formGroup]="form" enctype='multipart/form-data'>
       <div class="fields">
 
-        <!-- title -->
-        <!-- <mat-form-field appearance="outline" class="">
-          <mat-label>{{language.eventFormTexts[formTextsKeys.Title]}}</mat-label>
-          <input id="title" matInput formControlName="{{formTextsKeys.Title}}" #eventTitle />
-          <mat-error *ngIf="form.invalid">{{titleError}}</mat-error>
-          <mat-hint class="hint">{{eventTitle.value.length}} / 60</mat-hint>
-        </mat-form-field> -->
 
 
 
-      
         <mat-form-field>
           <mat-label>Distritos</mat-label>
           <mat-select formControlName="{{formTextsKeys.distritos}}">
             <mat-option *ngFor="let distrito of distritos" [value]="distrito">{{ distrito }}</mat-option>
           </mat-select>
         </mat-form-field>
-        
-        
-        
-        
-        
+
+
+
+
+
         <!-- description -->
-        <mat-form-field appearance="outline"> 
+        <mat-form-field appearance="outline">
           <mat-label>Días hábiles medición</mat-label>
           <input matInput formControlName="{{formTextsKeys.DiasHabiles}}" maxlength="100" class="diasHabiles">
           <mat-hint class="hint">{{ form.get(formTextsKeys.DiasHabiles)?.value.length }} / 200</mat-hint>
         </mat-form-field>
-        
-        
-        
 
-        
 
-        <!-- tag color and all day -->
-        <!-- <div class=" tag-container">
-          <div class="campo mb-2">
-            <mat-label>{{language.eventFormTexts[formTextsKeys.Color]}}</mat-label>
-            <input matInput formControlName="{{formTextsKeys.Color}}" type="color" class="color-input">
-          </div>
 
-          <div class="campo mb-2">
-            <mat-slide-toggle formControlName="{{formTextsKeys.IsAllDay}}" [labelPosition]="'before'"
-              (toggleChange)="showDates()"><span
-                class="me-2 allday">{{language.eventFormTexts[formTextsKeys.IsAllDay]}}</span></mat-slide-toggle>
-          </div>
-        </div> -->
 
-        <ng-container >
+
+
+
+        <ng-container>
 
           <!-- start date and time -->
           <div class=" date-container">
@@ -83,7 +66,11 @@
             </mat-form-field>
           </div>
 
-          <!-- end date and time -->
+
+
+
+
+
           <div class=" date-container">
 
             <mat-form-field appearance="outline">

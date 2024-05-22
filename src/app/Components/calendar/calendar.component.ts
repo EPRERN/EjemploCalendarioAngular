@@ -105,8 +105,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     console.log('Selected Date:', this.selectedDate);
     console.log('Day Names:', this.languageModel.shortDayNames);
     this.setInitialDateWithDefaultTime();
-    
   }
+  
 
 
   private setInitialDateWithDefaultTime(): void {
@@ -167,7 +167,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       .subscribe(
         (events: CalendarEvent[]) => {
           this.events = events;
-          console.log('Eventos cargados:', events); // Agrega un console.log() para verificar
+          console.log('Eventos cargados:', events);
         },
         (error) => {
           console.error('Error al cargar los eventos:', error);
@@ -178,6 +178,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.onDestroy$.complete();
       });
   }
+  
   
   
   deleteAllDialog() {
@@ -238,15 +239,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   /**  Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
   setSelectedDate(selected: CalendarDay) {
+    console.log('Día Seleccionado: ...... ', selected);
     setTimeout(() => {
+      // Ajustar la hora a medianoche (00:00:00)
+      selected.date.setHours(0, 0, 0, 0);
       this.selectedDate = selected.date;
-      this.fullDayName =
-        this.languageModel.fullDayNames[
-          this.getDayOfWeek(selected.date.getDay())
-        ];
+      this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.date.getDay())];
       this.eventsOfTheDay = selected.events;
+      console.log('Los eventos en el Día Seleccionado son :.........', selected.events);
     });
   }
+  
 
   /** Establece el año seleccionado en el calendario.
    * @param year  El año seleccionado.

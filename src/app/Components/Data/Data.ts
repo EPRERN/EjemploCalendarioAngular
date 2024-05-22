@@ -16,7 +16,7 @@ export function getDaysForMonthPage(date: Date, calendarService: CalendarService
   const allDays = [...daysBeforeMonth, ...monthDays, ...daysAfterMonth];
 
   const eventObservables = allDays.map(day => 
-    calendarService.getEventsOfTheDay(day.date).pipe(
+    getEventsOfTheDay(day.date, calendarService).pipe(
       map(events => ({
         ...day,
         events: events
@@ -26,6 +26,7 @@ export function getDaysForMonthPage(date: Date, calendarService: CalendarService
 
   return forkJoin(eventObservables);
 }
+
 
 
 
@@ -216,16 +217,24 @@ function isToday(date: Date) {
 
 
 function getEventsOfTheDay(date: Date, calendarService: CalendarService): Observable<CalendarEvent[]> {
-  return calendarService.getEventsOfTheDay(date).pipe(
-    map(events => {
-      return events.filter(event => {
-        if (event.endDate) {
-          return isDateInRangeOfTheEnvent(date, event);
-        }
-        return isEventOfTheDay(date, event);
-      });
-    })
-  );
+  console.log("Getting events for date: ", date);
+  return calendarService.getEventsOfTheDay(date) // Enviar la fecha como un objeto Date
+    .pipe(
+      map(events => {
+        console.log("Events fetched: ", events);
+        return events.filter(event => {
+          const eventStartDate = new Date(event.startDate);
+          const eventEndDate = event.endDate ? new Date(event.endDate) : null;
+          
+          if (eventEndDate) {
+            console.log("Checking range for event: ", event);
+            return isDateInRangeOfTheEvent(date, eventStartDate, eventEndDate);
+          }
+          console.log("Checking single day event: ", event);
+          return isEventOfTheDay(date, eventStartDate);
+        });
+      })
+    );
 }
 
 
@@ -234,15 +243,15 @@ function getEventsOfTheDay(date: Date, calendarService: CalendarService): Observ
 
 
 
-function isDateInRangeOfTheEnvent(date: Date, event: CalendarEvent): boolean {
-  return (
-    event.startDate.getDate() <= date.getDate() &&
-    event.endDate!.getDate() >= date.getDate() &&
-    event.startDate.getMonth() === date.getMonth() &&
-    event.endDate!.getMonth() === date.getMonth() &&
-    event.startDate.getFullYear() === date.getFullYear() &&
-    event.endDate!.getFullYear() === date.getFullYear()
+
+
+function isDateInRangeOfTheEvent(date: Date, eventStartDate: Date, eventEndDate: Date): boolean {
+  const inRange = (
+    eventStartDate <= date &&
+    eventEndDate >= date
   );
+  console.log(`Date ${date} is in range of event starting ${eventStartDate} and ending ${eventEndDate}: ${inRange}`);
+  return inRange;
 }
 
 
@@ -254,11 +263,12 @@ export function getHighestId(calendarService: CalendarService): Observable<numbe
 
 
 
-
-function isEventOfTheDay(date: Date, event: CalendarEvent): boolean {
-  return (
-    event.startDate.getDate() === date.getDate() &&
-    event.startDate.getMonth() === date.getMonth() &&
-    event.startDate.getFullYear() === date.getFullYear()
+function isEventOfTheDay(date: Date, eventStartDate: Date): boolean {
+  const isSameDay = (
+    eventStartDate.getDate() === date.getDate() &&
+    eventStartDate.getMonth() === date.getMonth() &&
+    eventStartDate.getFullYear() === date.getFullYear()
   );
+  console.log(`Date ${date} is the same day as event starting ${eventStartDate}: ${isSameDay}`);
+  return isSameDay;
 }

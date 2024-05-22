@@ -24,7 +24,8 @@ export enum FormFieldKeys {
   IsAllDay = 'isAllDay',
   TimeModalTitle = 'timeModalTitle',
   distritos = 'distritos',
-  // diasHabiles = 'diasHabiles'
+  Date = "Date",
+
 }
 
 export interface CalendarDay {
@@ -46,7 +47,9 @@ export interface CalendarEvent {
   color: string;
   isAllDay: boolean;
   distritos: string ;
-  // diasHabiles:number;
+  date:Date;
+
+
 }
 
 export interface CalendarEventForm extends CalendarEvent {
@@ -86,6 +89,6 @@ export function getDefaultCalendarEvent(): CalendarEventForm {
     isEdit: false,
     language: Languages.SPANISH,
     distritos:'',
-    // diasHabiles:0
+    date: new Date()
   };
 }

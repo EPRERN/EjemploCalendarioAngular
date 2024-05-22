@@ -50,9 +50,10 @@ export class CalendarService {
 
   
   getEventsOfTheDay(date: Date): Observable<CalendarEvent[]> {
-    const formattedDate = date.toISOString().split('T')[0];
-    return this.http.get<CalendarEvent[]>(`${this.baseUrl}/eventsOfTheDay?date=${formattedDate}`);
+    const isoDateString = date.toISOString().split('T')[0]; // Convertir la fecha a una cadena ISO
+    return this.http.get<CalendarEvent[]>(`${this.baseUrl}/eventsOfTheDay?date=${isoDateString}`);
   }
+  
 
   deleteAllEventsOfTheDay(date: Date): Observable<any> {
     const formattedDate = date.toISOString().split('T')[0];
