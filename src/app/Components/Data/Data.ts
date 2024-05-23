@@ -153,20 +153,17 @@ function isToday(date: Date) {
 
 
 function getEventsOfTheDay(date: Date, calendarService: CalendarService): Observable<CalendarEvent[]> {
-  console.log("Getting events for date: ", date);
-  return calendarService.getEventsOfTheDay(date) // Enviar la fecha como un objeto Date
+  return calendarService.getEventsOfTheDay(date)
     .pipe(
       map(events => {
-        console.log("Events fetched: ", events);
         return events.filter(event => {
           const eventStartDate = new Date(event.startDate);
           const eventEndDate = event.endDate ? new Date(event.endDate) : null;
-          
+
           if (eventEndDate) {
-            console.log("Checking range for event: ", event);
             return isDateInRangeOfTheEvent(date, eventStartDate, eventEndDate);
           }
-          console.log("Checking single day event: ", event);
+
           return isEventOfTheDay(date, eventStartDate);
         });
       })
@@ -198,7 +195,6 @@ export function getHighestId(calendarService: CalendarService): Observable<numbe
 
 
 
-
 function isEventOfTheDay(date: Date, eventStartDate: Date): boolean {
   const isSameDay = (
     eventStartDate.getDate() === date.getDate() &&
@@ -208,6 +204,7 @@ function isEventOfTheDay(date: Date, eventStartDate: Date): boolean {
   console.log(`Date ${date} is the same day as event starting ${eventStartDate}: ${isSameDay}`);
   return isSameDay;
 }
+
 
 
 

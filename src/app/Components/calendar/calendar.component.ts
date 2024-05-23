@@ -60,6 +60,13 @@ import { dateValidation } from './Validators';
   styleUrls: ['./calendar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
+
+
+
+
+
+
+
 export class CalendarComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject();
   events: CalendarEvent[] = []; // Variable para almacenar los eventos
@@ -108,7 +115,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
   
 
-
   private setInitialDateWithDefaultTime(): void {
     // Establece la hora por defecto que desees, por ejemplo, 12:00 (mediodía)
     const defaultHour = 12;
@@ -125,6 +131,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  
   openAddEventDialog() {
     let newEvent = getDefaultCalendarEvent();
     newEvent.language = this.langSelected;
@@ -180,7 +187,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
   
   
-  
   deleteAllDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {
       data: this.languageModel,
@@ -212,7 +218,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
         }
       });
   }
-  
 
   /** Establece el idioma del calendario. */
   setLanguage() {
@@ -224,6 +229,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.reloadComponent();
     this.loadEvents()
   }
+
 
   /**  selecciona el panel del calendario (dias, meses o años).*/
   selectPanel() {
@@ -238,17 +244,34 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   /**  Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
-  setSelectedDate(selected: CalendarDay) {
-    console.log('Día Seleccionado: ...... ', selected);
-    setTimeout(() => {
-      // Ajustar la hora a medianoche (00:00:00)
-      selected.selectedDate.setHours(0, 0, 0, 0);
-      this.selectedDate = selected.selectedDate;
-      this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
-      this.eventsOfTheDay = selected.events;
-      console.log('Los eventos en el Día Seleccionado son :.........', selected.events);
+/** Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
+setSelectedDate(selected: CalendarDay) {
+  console.log('Día Seleccionado: ...... ', selected);
+  setTimeout(() => {
+    selected.selectedDate.setHours(0, 0, 0, 0);
+    this.selectedDate = selected.selectedDate;
+    this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
+
+    // Normalizar fechas a medianoche para la comparación
+    const selectedDateStart = new Date(this.selectedDate);
+    selectedDateStart.setHours(0, 0, 0, 0);
+    
+    this.eventsOfTheDay = this.events.filter(event => {
+      const eventStartDate = new Date(event.startDate);
+      eventStartDate.setHours(0, 0, 0, 0);
+      return eventStartDate.getTime() === selectedDateStart.getTime();
     });
-  }
+
+    console.log('Los eventos en el Día Seleccionado son :.........', this.eventsOfTheDay);
+
+    const dateString = selected.selectedDate.toISOString().split('T')[0];
+    this.dateForm.patchValue(dateString);
+  });
+}
+
+  
+  
+  
   
 
   /** Establece el año seleccionado en el calendario.
@@ -261,6 +284,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.calendarMonthYear = this.year.toString();
   }
 
+
   /** Establece el mes seleccionado en el calendario.
    * @param month El mes seleccionado.
    */
@@ -271,11 +295,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.updateCalendarTitle();
   }
 
+
   /** Establece el día seleccionado en el calendario con la fecha de hoy. */
   goToday() {
     this.panelSelected = CalendarPanel.Days;
     this.reloadComponent(new Date());
   }
+
 
   /** Establece el mes o la decada anterior según el panel seleccionado.*/
   prevDatePanel() {
@@ -336,6 +362,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.reloadComponent();
     }
   }
+
   
 
 

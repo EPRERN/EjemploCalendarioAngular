@@ -77,6 +77,28 @@ import { CalendarService } from '../../Services';
 
 export class EventFormComponent implements OnInit, OnDestroy {
 
+  distritos: any[] = [
+    'GENERAL CONESA',
+    'VIEDMA',
+    'SAN ANTONIO OESTE',
+    'SIERRA GRANDE',
+    'VALCHETA',
+    'RIO COLORADO',
+    'CHOELE CHOEL',
+    'CIPOLLETTI',
+    'ALLEN',
+    'GENERAL ROCA',
+    'VILLA REGINA',
+    'CINCO SALTOS',
+    'CATRIEL',
+    'CERRO POLICIA',
+    'EL CUY',
+    'BARILOCHE',
+    'INGENIERO JACOBACCI',
+    'EL CAIN',
+    'EL BOLSON'
+  ];
+  
   
   onDestroy$: Subject<boolean> = new Subject();
 
@@ -121,28 +143,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
 
-  distritos: any[] = [
-    'GENERAL CONESA',
-    'VIEDMA',
-    'SAN ANTONIO OESTE',
-    'SIERRA GRANDE',
-    'VALCHETA',
-    'RIO COLORADO',
-    'CHOELE CHOEL',
-    'CIPOLLETTI',
-    'ALLEN',
-    'GENERAL ROCA',
-    'VILLA REGINA',
-    'CINCO SALTOS',
-    'CATRIEL',
-    'CERRO POLICIA',
-    'EL CUY',
-    'BARILOCHE',
-    'INGENIERO JACOBACCI',
-    'EL CAIN',
-    'EL BOLSON'
-  ];
-  
   onSubmit() {
     const startDate = this.form.get(FormFieldKeys.StartDate)?.value;
     const endDate = this.form.get(FormFieldKeys.EndDate)?.value;
@@ -278,7 +278,7 @@ private getUpdatedCalendarEvent(): CalendarEvent {
       [FormFieldKeys.Color]: ['#AD0000'],
       [FormFieldKeys.IsAllDay]: [false],
       [FormFieldKeys.distritos]: [],
-      
+      [FormFieldKeys.selectedDate]: [this.model.selectedDate],      
       
       
     });
