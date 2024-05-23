@@ -24,7 +24,7 @@ import {
   CalendarDay,
   CalendarEvent,
   CalendarPanel,
-  
+
   ErrorKeys,
   LANGUAGES,
   LanguageModel,
@@ -103,17 +103,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor(
     private calendarService: CalendarService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.showHideEvents();
     this.setLanguage();
-    this.loadEvents(); // Cargar los eventos al iniciar el componente
+    this.loadEvents(); // Asegúrate de cargar los eventos aquí
     console.log('Selected Date:', this.selectedDate);
     console.log('Day Names:', this.languageModel.shortDayNames);
     this.setInitialDateWithDefaultTime();
   }
-  
+
+
 
   private setInitialDateWithDefaultTime(): void {
     // Establece la hora por defecto que desees, por ejemplo, 12:00 (mediodía)
@@ -131,16 +132,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  
+
   openAddEventDialog() {
     let newEvent = getDefaultCalendarEvent();
     newEvent.language = this.langSelected;
-    newEvent.startDate = this.selectedDate;
-  
+    newEvent.startDate = new Date(this.selectedDate);  // Ensure it's a Date object
+
     const dialogRef = this.dialog.open(EventFormComponent, {
       data: newEvent,
     });
-  
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -148,23 +149,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
         if (result === '' || result === undefined) {
           return;
         }
-  
-        //==================================================================================================
-        // AQUI IRIA EL CODIGO PARA GUARDAR EL EVENTO EN EL BACKEND Y LUEGO AGREGARLO A LA LISTA DE EVENTOS
-        //==================================================================================================
-  
+
         this.calendarService.addEvent(result)
           .subscribe((response) => {
             if (!response) {
-              console.error(
-                this.languageModel.errorMessages[ErrorKeys.AddEventError]
-              );
+              console.error(this.languageModel.errorMessages[ErrorKeys.AddEventError]);
             } else {
               this.reloadComponent();
             }
           });
-  
-        //==================================================================================================
       });
   }
 
@@ -173,8 +166,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.calendarService.getAllEvents()
       .subscribe(
         (events: CalendarEvent[]) => {
-          this.events = events;
-          console.log('Eventos cargados:', events);
+          this.events = events.map(event => {
+            const eventStartDate = new Date(event.startDate);
+            eventStartDate.setHours(0, 0, 0, 0);
+            event.startDate = eventStartDate;
+            
+            if (event.endDate) {
+              const eventEndDate = new Date(event.endDate);
+              eventEndDate.setHours(0, 0, 0, 0);
+              event.endDate = eventEndDate;
+            }
+            
+            return event;
+          });
+          console.log('Eventos cargados:', this.events);
         },
         (error) => {
           console.error('Error al cargar los eventos:', error);
@@ -186,12 +191,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
       });
   }
   
-  
+
+
+
+
   deleteAllDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {
       data: this.languageModel,
     });
-  
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -200,20 +208,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
           //==================================================================================================
           // AQUI IRIA EL CODIGO PARA ELIMINAR TODOS LOS EVENTOS DEL DIA EN EL BACKEND
           //==================================================================================================
-  
+
           this.calendarService.deleteAllEventsOfTheDay(this.selectedDate)
             .subscribe((response) => {
               if (response === false) {
                 console.error(
                   this.languageModel.errorMessages[
-                    ErrorKeys.DeleteAllEventsOfTheDayError
+                  ErrorKeys.DeleteAllEventsOfTheDayError
                   ]
                 );
               } else {
                 this.reloadComponent();
               }
             });
-  
+
           //==================================================================================================
         }
       });
@@ -237,42 +245,40 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.panelSelected === CalendarPanel.Days
         ? CalendarPanel.Months
         : this.panelSelected === CalendarPanel.Months
-        ? CalendarPanel.Years
-        : CalendarPanel.Days;
+          ? CalendarPanel.Years
+          : CalendarPanel.Days;
 
     this.setTitlePanel();
   }
 
-  /**  Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
-/** Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
-setSelectedDate(selected: CalendarDay) {
-  console.log('Día Seleccionado: ...... ', selected);
-  setTimeout(() => {
-    selected.selectedDate.setHours(0, 0, 0, 0);
-    this.selectedDate = selected.selectedDate;
-    this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
-
-    // Normalizar fechas a medianoche para la comparación
-    const selectedDateStart = new Date(this.selectedDate);
-    selectedDateStart.setHours(0, 0, 0, 0);
+  setSelectedDate(selected: CalendarDay) {
+    console.log('Día Seleccionado: ...... ', selected);
+    
+    const selectedDate = new Date(selected.selectedDate);
+    selectedDate.setHours(0, 0, 0, 0);
+    this.selectedDate = selectedDate;
+    
+    this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(this.selectedDate.getDay())];
     
     this.eventsOfTheDay = this.events.filter(event => {
       const eventStartDate = new Date(event.startDate);
       eventStartDate.setHours(0, 0, 0, 0);
-      return eventStartDate.getTime() === selectedDateStart.getTime();
+      return eventStartDate.getTime() === this.selectedDate.getTime();
     });
-
+    
     console.log('Los eventos en el Día Seleccionado son :.........', this.eventsOfTheDay);
-
-    const dateString = selected.selectedDate.toISOString().split('T')[0];
+    
+    const dateString = this.selectedDate.toISOString().split('T')[0];
     this.dateForm.patchValue(dateString);
-  });
-}
+  }
+  
+  
 
-  
-  
-  
-  
+
+
+
+
+
 
   /** Establece el año seleccionado en el calendario.
    * @param year  El año seleccionado.
@@ -353,17 +359,17 @@ setSelectedDate(selected: CalendarDay) {
       !this.dateForm.hasError(ErrorKeys.DateInvalid)
     ) {
       const [day, month, year] = this.dateForm.value!.split('/').map(Number);
-  
+
       // Modificación aquí
       this.selectedDate = new Date(year, month - 1, day);
       // Fin de la modificación
-  
+
       this.panelSelected = CalendarPanel.Days;
       this.reloadComponent();
     }
   }
 
-  
+
 
 
 
@@ -398,8 +404,8 @@ setSelectedDate(selected: CalendarDay) {
     this.panelSelected === CalendarPanel.Days
       ? this.updateCalendarTitle()
       : this.panelSelected === CalendarPanel.Months
-      ? (this.calendarMonthYear = this.selectedDate.getFullYear().toString())
-      : this.setDecadeTitle();
+        ? (this.calendarMonthYear = this.selectedDate.getFullYear().toString())
+        : this.setDecadeTitle();
   }
 
   /** Obtiene el número de día de la semana.
@@ -414,9 +420,8 @@ setSelectedDate(selected: CalendarDay) {
 
   /** Actualiza el titulo del calendario.*/
   private updateCalendarTitle() {
-    this.calendarMonthYear = `${
-      this.languageModel.fullMonthsNames[this.month]
-    } ${this.year}`;
+    this.calendarMonthYear = `${this.languageModel.fullMonthsNames[this.month]
+      } ${this.year}`;
   }
 
   /** Establece la década seleccionada en el titulo del calendario.*/

@@ -196,14 +196,18 @@ export function getHighestId(calendarService: CalendarService): Observable<numbe
 
 
 function isEventOfTheDay(date: Date, eventStartDate: Date): boolean {
+  const dateWithoutTime = new Date(date);
+  dateWithoutTime.setHours(0, 0, 0, 0);
+  const eventDateWithoutTime = new Date(eventStartDate);
+  eventDateWithoutTime.setHours(0, 0, 0, 0);
+
   const isSameDay = (
-    eventStartDate.getDate() === date.getDate() &&
-    eventStartDate.getMonth() === date.getMonth() &&
-    eventStartDate.getFullYear() === date.getFullYear()
+    dateWithoutTime.getTime() === eventDateWithoutTime.getTime()
   );
   console.log(`Date ${date} is the same day as event starting ${eventStartDate}: ${isSameDay}`);
   return isSameDay;
 }
+
 
 
 
