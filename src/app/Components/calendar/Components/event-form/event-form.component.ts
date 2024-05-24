@@ -102,7 +102,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   
   onDestroy$: Subject<boolean> = new Subject();
 
-  model: CalendarEventForm = this.createDefaultEvent();
+  model!: CalendarEventForm
 
   language: LanguageModel = SPANISH;
   formTextsKeys = EventFormTextsKeys;
@@ -129,7 +129,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
     private formbuilder: FormBuilder,
     private dialog: MatDialog,
     private calendarService: CalendarService // Añade esta línea
-  ) {}
+  ) {
+    this.model = this.data ? this.data : this.createDefaultEvent();
+  }
   
 
   ngOnInit(): void {
@@ -143,15 +145,16 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit() {
+ onSubmit() {
+  if (this.form.valid) { // Usamos el validador de Angular para el formulario
     const startDate = this.form.get(FormFieldKeys.StartDate)?.value;
     const endDate = this.form.get(FormFieldKeys.EndDate)?.value;
     const diasHabiles = this.calcularDiasHabiles(startDate, endDate);
-  
+
     this.form.get(FormFieldKeys.DiasHabiles)?.setValue(diasHabiles);
-  
+
     const updatedEvent = this.getUpdatedCalendarEvent();
-  
+
     if (this.model.isEdit) {
       this.calendarService.updateEvent(this.model.id, updatedEvent).subscribe(() => {
         this.dialogRef.close(updatedEvent);
@@ -162,6 +165,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+}
+
   
   
   
@@ -218,26 +223,27 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   /** Devuelve el evento actualizado con los datos del formulario. */
-private getUpdatedCalendarEvent(): CalendarEvent {
-  const output: CalendarEvent = {
-    id: this.model.id,
-    title: this.form.get(FormFieldKeys.Title)?.value,
-    diasHabiles: this.form.get(FormFieldKeys.DiasHabiles)?.value,
-    startDate: this.createDate(),
-    endDate: this.createDate(false),
-    color: this.form.get(FormFieldKeys.Color)?.value,
-    isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
-    distritos: this.form.get(FormFieldKeys.distritos)?.value,
-    selectedDate: this.form.get(FormFieldKeys.selectedDate)?.value, // Agregar el campo date
-  };
-
-  if (output.isAllDay) {
-    output.startDate.setHours(0, 0, 0, 0);
-    output.endDate = undefined;
+  private getUpdatedCalendarEvent(): CalendarEvent {
+    const output: CalendarEvent = {
+      id: this.model.id,
+      title: this.form.get(FormFieldKeys.Title)?.value,
+      diasHabiles: this.form.get(FormFieldKeys.DiasHabiles)?.value,
+      startDate: this.createDate(),
+      endDate: this.createDate(false),
+      color: this.form.get(FormFieldKeys.Color)?.value,
+      isAllDay: this.form.get(FormFieldKeys.IsAllDay)?.value,
+      distritos: this.form.get(FormFieldKeys.distritos)?.value,
+      selectedDate: this.form.get(FormFieldKeys.selectedDate)?.value, // Asegurarse de que esto sea una fecha
+    };
+  
+    if (output.isAllDay) {
+      output.startDate.setHours(0, 0, 0, 0);
+      output.endDate = undefined;
+    }
+  
+    return output;
   }
-
-  return output;
-}
+  
 
 
   /** Crea una fecha y hora a partir de los valores del formulario.*/

@@ -30,8 +30,15 @@ export class CalendarService {
   }
 
   addEvent(event: CalendarEvent): Observable<CalendarEvent> {
-    return this.http.post<CalendarEvent>(this.baseUrl, event);
+    console.log('addEvent called');
+    return this.http.post<CalendarEvent>(this.baseUrl, {
+      ...event,
+      startDate: event.startDate ? new Date(event.startDate).toISOString() : null,
+      endDate: event.endDate ? new Date(event.endDate).toISOString() : null,
+      selectedDate: event.selectedDate ? new Date(event.selectedDate).toISOString() : null
+    });
   }
+  
 
   updateEvent(id: number, event: CalendarEvent): Observable<CalendarEvent> {
     return this.http.put<CalendarEvent>(`${this.baseUrl}/${id}`, event);
