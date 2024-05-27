@@ -104,13 +104,12 @@
 
   <div class="form-footer">
 
-
-    <button class="btn-save" mat-flat-button aria-label="close" [disabled]="form.invalid" form="eventForm"
-      (click)="onSubmit()">
+    <button class="btn-save" mat-flat-button aria-label="close" form="eventForm">
       <mat-icon>{{model.isEdit ? 'edit' : 'save'}}</mat-icon>
       {{ model.isEdit ? language.eventFormTexts[formTextsKeys.BtnEditText] :
       language.eventFormTexts[formTextsKeys.BtnSaveText]}}
     </button>
+    
 
     <button class="btn-cancel" mat-flat-button aria-label="close" (click)="closeDialog()">
       <mat-icon>close</mat-icon>

@@ -25,6 +25,8 @@ import {
   CalendarEvent,
   CalendarPanel,
   
+  DateType,
+  
   ErrorKeys,
   LANGUAGES,
   LanguageModel,
@@ -67,8 +69,7 @@ import { dateValidation } from './Validators';
 
 
 
-export class CalendarComponent implements OnInit, OnDestroy {
-  onDestroy$: Subject<boolean> = new Subject();
+export class CalendarComponent implements OnInit, OnDestroy {onDestroy$: Subject<boolean> = new Subject();
   events: CalendarEvent[] = []; // Variable para almacenar los eventos
 
   languages = Object.values(Languages);
@@ -86,7 +87,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   panelsType = CalendarPanel;
   panelSelected: CalendarPanel = CalendarPanel.Days;
 
-  selectedDate = new Date();
+  selectedDate: Date = new Date();
   fullDayName = '';
   year = this.selectedDate.getFullYear();
   month = this.selectedDate.getMonth();
@@ -99,6 +100,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   eventsOfTheDay: CalendarEvent[] = [];
   reloadChildComponent = false;
+startDate: any;
 
   constructor(
     private calendarService: CalendarService,
@@ -113,6 +115,28 @@ export class CalendarComponent implements OnInit, OnDestroy {
     console.log('Day Names:', this.languageModel.shortDayNames);
     this.setInitialDateWithDefaultTime();
   }
+  
+
+
+  hasEvents(day: CalendarDay): boolean {
+    // Normaliza la fecha del día para la comparación
+    const dayStart = new Date(day.selectedDate);
+    dayStart.setHours(0, 0, 0, 0);
+
+    // Filtra los eventos del día
+    const eventsOfTheDay = this.events.filter(event => {
+      const eventStartDate = new Date(event.startDate);
+      eventStartDate.setHours(0, 0, 0, 0);
+      return eventStartDate.getTime() === dayStart.getTime();
+    });
+
+    // Devuelve true si hay eventos en el día, false en caso contrario
+    const hasEvents = eventsOfTheDay.length > 0;
+    console.log(`¿Hay eventos en el día ${dayStart.toISOString().split('T')[0]}? ${hasEvents}`);
+
+    return hasEvents;
+  }
+
   
 
   private setInitialDateWithDefaultTime(): void {
@@ -136,11 +160,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let newEvent = getDefaultCalendarEvent();
     newEvent.language = this.langSelected;
     newEvent.startDate = this.selectedDate;
-  
+
     const dialogRef = this.dialog.open(EventFormComponent, {
       data: newEvent,
     });
-  
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -148,11 +172,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
         if (result === '' || result === undefined) {
           return;
         }
-  
+
         //==================================================================================================
         // AQUI IRIA EL CODIGO PARA GUARDAR EL EVENTO EN EL BACKEND Y LUEGO AGREGARLO A LA LISTA DE EVENTOS
         //==================================================================================================
-  
+
         this.calendarService.addEvent(result)
           .subscribe((response) => {
             if (!response) {
@@ -163,29 +187,42 @@ export class CalendarComponent implements OnInit, OnDestroy {
               this.reloadComponent();
             }
           });
-  
+
         //==================================================================================================
       });
   }
 
 
+
+ 
+  // Asegúrate de que esta función cargue los eventos correctamente
   loadEvents() {
     this.calendarService.getAllEvents()
       .subscribe(
         (events: CalendarEvent[]) => {
           this.events = events;
           console.log('Eventos cargados:', events);
+
+          // Create a dummy CalendarDay object with required properties
+          const calendarDay: CalendarDay = {
+            number: this.selectedDate.getDate(),
+            dateType: DateType.Current, // Update with appropriate logic for dateType
+            events: [],
+            isSelected: false,
+            isToday: false,
+            dayOfWeek: this.selectedDate.getDay(),
+            selectedDate: this.selectedDate,
+          };
+
+          this.setSelectedDate(calendarDay);
         },
         (error) => {
           console.error('Error al cargar los eventos:', error);
         }
-      )
-      .add(() => {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-      });
+      );
   }
-  
+
+
   
   deleteAllDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {
@@ -245,31 +282,35 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   /**  Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
 /** Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
+
+  // Este método debe actualizar eventsOfTheDay correctamente
+ 
+// Este método debe actualizar eventsOfTheDay correctamente
 setSelectedDate(selected: CalendarDay) {
   console.log('Día Seleccionado: ...... ', selected);
-  setTimeout(() => {
-    selected.selectedDate.setHours(0, 0, 0, 0);
-    this.selectedDate = selected.selectedDate;
-    this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
+  selected.selectedDate.setHours(0, 0, 0, 0);
+  this.selectedDate = selected.selectedDate;
+  this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
 
-    // Normalizar fechas a medianoche para la comparación
-    const selectedDateStart = new Date(this.selectedDate);
-    selectedDateStart.setHours(0, 0, 0, 0);
-    
-    this.eventsOfTheDay = this.events.filter(event => {
-      const eventStartDate = new Date(event.startDate);
-      eventStartDate.setHours(0, 0, 0, 0);
-      return eventStartDate.getTime() === selectedDateStart.getTime();
-    });
+  const selectedDateStart = new Date(this.selectedDate);
+  selectedDateStart.setHours(0, 0, 0, 0);
 
-    console.log('Los eventos en el Día Seleccionado son :.........', this.eventsOfTheDay);
-
-    const dateString = selected.selectedDate.toISOString().split('T')[0];
-    this.dateForm.patchValue(dateString);
+  this.eventsOfTheDay = this.events.filter(event => {
+    const eventStartDate = new Date(event.startDate);
+    eventStartDate.setHours(0, 0, 0, 0);
+    return eventStartDate.getTime() === selectedDateStart.getTime();
   });
+
+  console.log('Los eventos en el Día Seleccionado son :.........', this.eventsOfTheDay);
+
+  const dateString = selected.selectedDate.toISOString().split('T')[0];
+  this.dateForm.patchValue(dateString);
 }
 
-  
+
+
+
+
   
   
   

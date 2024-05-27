@@ -34,14 +34,15 @@ import { EventFormComponent } from '../event-form/event-form.component';
 })
 export class EventTagComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject();
-  events: CalendarEvent[] = [];
-
+  @Input() events: CalendarEvent[] = [];
+  
+  filteredEvents: CalendarEvent[] = []; // Agrega esta línea
   @Input() event!: CalendarEvent;
   @Input() language: Languages = Languages.SPANISH;
   languageModel: LanguageModel = SPANISH;
-
+  @Input() selectedDate: Date = new Date(); // Agregar esta línea
   @Output() reloadCalendar: EventEmitter<boolean> = new EventEmitter<boolean>();
-
+  @Input() startDate: Date = new Date(); 
   constructor(
     private calendarService: CalendarService,
     private dialog: MatDialog
@@ -63,7 +64,8 @@ export class EventTagComponent implements OnInit, OnDestroy {
       .subscribe(
         (events: CalendarEvent[]) => {
           this.events = events;
-          console.log('Eventos cargados:', events); // Agrega un console.log() para verificar
+          this.filteredEvents = this.filterEventsByStartDate(this.startDate); 
+          console.log('Eventos cargados:', this.events); 
         },
         (error) => {
           console.error('Error al cargar los eventos:', error);
@@ -129,5 +131,14 @@ export class EventTagComponent implements OnInit, OnDestroy {
     //==================================================================================================
   }
   
+  filterEventsByStartDate(startDate: Date): CalendarEvent[] {
+    return this.events.filter(event => {
+      const eventStartDate = new Date(event.startDate);
+      eventStartDate.setHours(0, 0, 0, 0);
+      const startDateNormalized = new Date(startDate);
+      startDateNormalized.setHours(0, 0, 0, 0);
+      return eventStartDate.getTime() === startDateNormalized.getTime();
+    });
+  }
   
 }

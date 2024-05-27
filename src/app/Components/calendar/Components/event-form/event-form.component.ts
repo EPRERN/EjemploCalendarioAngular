@@ -130,7 +130,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private calendarService: CalendarService // Añade esta línea
   ) {
-    this.model = this.data ? this.data : this.createDefaultEvent();
+    // this.model = this.data ? this.data : this.createDefaultEvent();
   }
   
 
@@ -146,7 +146,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
 
  onSubmit() {
-  if (this.form.valid) { // Usamos el validador de Angular para el formulario
+   // Usamos el validador de Angular para el formulario
     const startDate = this.form.get(FormFieldKeys.StartDate)?.value;
     const endDate = this.form.get(FormFieldKeys.EndDate)?.value;
     const diasHabiles = this.calcularDiasHabiles(startDate, endDate);
@@ -164,7 +164,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
         this.dialogRef.close(newEvent);
       });
     }
-  }
+  
 }
 
   
@@ -470,20 +470,20 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   /** Devuelve un evento por defecto. */
-  private createDefaultEvent(): CalendarEventForm {
-    return {
-      id: 0,
-      title: '',
-      diasHabiles: 0,
-      startDate: new Date(),
-      endDate: new Date(),
-      color: '',
-      isAllDay: false,
-      isEdit: false,
-      language: this.data.language,
-      distritos:'',
-      selectedDate: new Date()
+  // private createDefaultEvent(): CalendarEventForm {
+  //   return {
+  //     id: 0,
+  //     title: '',
+  //     diasHabiles: 0,
+  //     startDate: new Date(),
+  //     endDate: new Date(),
+  //     color: '',
+  //     isAllDay: false,
+  //     isEdit: false,
+  //     language: this.data.language,
+  //     distritos:'',
+  //     selectedDate: new Date()
 
-    };
-  }
+  //   };
+  // }
 }

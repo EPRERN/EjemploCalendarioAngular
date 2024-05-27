@@ -1,20 +1,19 @@
-import { NgClass, NgFor, NgStyle } from '@angular/common';
+import { CommonModule, NgClass, NgFor, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
-import { CalendarDay, CalendarEvent, DateType,  SPANISH } from '../../Models';
+import { CalendarDay, CalendarEvent, DateType, SPANISH } from '../../Models';
 import { CalendarService } from '../../Services';
 
 @Component({
   selector: 'app-days',
   standalone: true,
-  imports: [MatButtonModule, MatRippleModule, NgFor, NgClass, NgStyle],
+  imports: [MatButtonModule, MatRippleModule, NgFor, NgClass, NgStyle, CommonModule],
   templateUrl: './days.component.html',
   styleUrls: ['./days.component.scss'],
 })
 export class DaysComponent implements OnInit {
 
-  
   dayType = DateType;
 
   /** Fecha seleccionada. */
@@ -23,6 +22,9 @@ export class DaysComponent implements OnInit {
   /** Nombre de los días de la semana en formato corto. */
   @Input() dayNames = SPANISH.shortDayNames;
 
+  /** Lista de eventos del mes actual. */
+  @Input() events: CalendarEvent[] = []; // Agrega esta línea
+
   /** Devuelve el día seleccionado en formato CalendarDay. */
   @Output() selectedDay = new EventEmitter<CalendarDay>();
 
@@ -30,17 +32,13 @@ export class DaysComponent implements OnInit {
   year = 1900;
   daysMonth: CalendarDay[] = [];
 
-  events: CalendarEvent[] = [];
-
   constructor(private calendarService: CalendarService) {}
 
   ngOnInit(): void {
     this.loadDays();
   }
 
-
-  /** Carga los días del mes seleccionado, los eventos y establece el día seleccionado por defecto. */
- 
+  /** Carga los días del mes seleccionado y establece el día seleccionado por defecto. */
   loadDays() {
     this.month = this.date.getMonth();
     this.year = this.date.getFullYear();
@@ -51,12 +49,7 @@ export class DaysComponent implements OnInit {
     }, error => {
       console.error('Error al obtener los días del mes:', error);
     });
-  
-    // No necesitas manejar los eventos aquí, ya que se incluyen en la respuesta de getDaysForMonthPage
   }
-  
-
-  
 
   /** Establece el día seleccionado por defecto. */
   setDefaultSelectDay() {
@@ -74,5 +67,18 @@ export class DaysComponent implements OnInit {
     day.selectedDate = new Date(this.year, this.month, day.number);
 
     this.selectedDay.emit(day);
+  }
+
+  hasEvents(day: CalendarDay): boolean {
+    const dayStart = new Date(this.year, this.month, day.number);
+    dayStart.setHours(0, 0, 0, 0);
+  
+    const eventsOfTheDay = this.events.filter(event => {
+      const eventStartDate = new Date(event.startDate);
+      eventStartDate.setHours(0, 0, 0, 0);
+      return eventStartDate.getTime() === dayStart.getTime();
+    });
+  
+    return eventsOfTheDay.length > 0;
   }
 }

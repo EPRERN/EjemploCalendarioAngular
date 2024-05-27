@@ -1,5 +1,5 @@
 <div class="days">
-  <div class="weekdays" *ngFor="let day of dayNames">{{day}}</div>
+  <div class="weekdays" *ngFor="let day of dayNames">{{ day }}</div>
 
   <div class="day-container matRipple" *ngFor="let day of daysMonth">
     <a [ngClass]="{
@@ -8,14 +8,12 @@
         'today': day.isToday,
         'selected': day.isSelected,
         'weekend': (day.dayOfWeek === 0 || day.dayOfWeek === 6) && day.dateType === dayType.Current,
+        'day-with-events': hasEvents(day)
       }" 
       [disabled]="day.dateType === dayType.Before || day.dateType === dayType.After" 
       (click)="selectDay(day)" 
       mat-stroked-button>
       {{ day.number }}
     </a>
-    <div
-      [ngClass]="{'with-events': day.events.length > 0, 'extraDay': day.dateType === dayType.Before || day.dateType === dayType.After}">
-    </div>
   </div>
 </div>

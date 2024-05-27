@@ -28,11 +28,12 @@
     --dialog-header-color: #ffffff;
     --field-border-color: black;
     --hint-form-color: #847d7d; //contador de caracteres de inputs
-    --day-with-events-color: #38f496;
+    --day-with-events-color: #f24a4a;
     --day-actual-month-color: #FFFFFF;
     --day-another-month-color: #666666;
     --day-extra-with-events-color: #6c756c;
     --day-weekend-color: #f24a4a;
+
 
     //estilos de scrollbar Firefox
     scrollbar-width: thin;
@@ -137,6 +138,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    color: white;
   }
 
   .dayName {
@@ -150,6 +152,7 @@
     flex: 1;
     gap: 0.5rem;
     overflow: auto;
+    height: 30px;
   }
 
   .events-footer {
@@ -392,58 +395,10 @@
     animation: slideLeftOut 0.3s ease-in-out;
   }
 
-  // /*=== ZOOM OUT  ===*/
-  // @keyframes zoomOut {
-  //   0% {
-  //     transform: scale(1);
-  //     opacity: 1;
-  //   }
-
-  //   100% {
-  //     transform: scale(1.8);
-  //     opacity: 0;
-  //   }
-  // }
-
-  // .zoomOut {
-  //   animation-name: zoomOut;
-  //   animation-duration: 0.4s;
-  //   animation-timing-function: ease;
-  //   animation-fill-mode: forwards;
-  // }
-
-  // /*=== SLIDE IN UP  ===*/
-  // @keyframes slideInUp {
-  //   from {
-  //     transform: translateY(100%);
-  //     opacity: 0;
-  //   }
-
-  //   to {
-  //     transform: translateY(0);
-  //     opacity: 1;
-  //   }
-  // }
 
 
-  // .slideInUp {
-  //   animation: slideInUp 0.5s ease-out;
-  // }
 
 
-  // /*=== SLIDE IN DOW  ===*/
-  // @keyframes slideInDown {
-  //   from {
-  //     transform: translateY(-100%);
-  //     opacity: 0;
-  //   }
 
-  //   to {
-  //     transform: translateY(0);
-  //     opacity: 1;
-  //   }
-  // }
 
-  // .slideInDown {
-  //   animation: slideInDown 0.5s ease-out;
-  // }
+ 
