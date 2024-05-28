@@ -12,8 +12,11 @@ import {  LanguageModel, PageElementsTextsKeys, SPANISH } from '../../Models';
   styleUrls: ['./confirm-delete-modal.component.scss'],
 })
 export class ConfirmDeleteModalComponent implements OnInit {
+  
+  
   language: LanguageModel = SPANISH;
   textsKeys = PageElementsTextsKeys;
+
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDeleteModalComponent>,

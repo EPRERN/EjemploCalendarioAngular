@@ -116,30 +116,31 @@
     transition: 0.3s ease-in-out;
   }
 
-  .events-container {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    left: -11px;
-    gap: 1rem;
-    padding: 2rem;
-    background-color: var(--events-background);
-    color: white;
-    height: calc(643px - 4rem);
-    width: 300px;
-    z-index: 1;
-    transition: 0.3s ease-in-out;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
+ 
+.events-container {
+  display: flex; // Cambiar de none a flex para mostrar el contenedor
+  flex-direction: column; // Asegurar que los eventos se dispongan en columna
+  justify-content: flex-start; // Alinear eventos al inicio del contenedor
+  position: relative;
+  left: -11px;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: var(--events-background);
+  color: white;
+  height: calc(643px - 4rem);
+  width: 300px;
+  z-index: 1;
+  transition: 0.3s ease-in-out;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 
-  .events-header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    color: white;
-  }
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+}
 
   .dayName {
     text-transform: uppercase;
@@ -148,11 +149,9 @@
   .events-body {
     display: flex;
     flex-direction: column;
-    padding: 2rem 0;
     flex: 1;
     gap: 0.5rem;
-    overflow: auto;
-    height: 30px;
+    // overflow: auto;
   }
 
   .events-footer {

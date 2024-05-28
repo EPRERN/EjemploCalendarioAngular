@@ -24,9 +24,9 @@ import {
   CalendarDay,
   CalendarEvent,
   CalendarPanel,
-  
+
   DateType,
-  
+
   ErrorKeys,
   LANGUAGES,
   LanguageModel,
@@ -69,7 +69,11 @@ import { dateValidation } from './Validators';
 
 
 
-export class CalendarComponent implements OnInit, OnDestroy {onDestroy$: Subject<boolean> = new Subject();
+export class CalendarComponent implements OnInit, OnDestroy {
+
+
+
+  [x: string]: any; onDestroy$: Subject<boolean> = new Subject();
   events: CalendarEvent[] = []; // Variable para almacenar los eventos
 
   languages = Object.values(Languages);
@@ -100,12 +104,12 @@ export class CalendarComponent implements OnInit, OnDestroy {onDestroy$: Subject
 
   eventsOfTheDay: CalendarEvent[] = [];
   reloadChildComponent = false;
-startDate: any;
+  startDate: any;
 
   constructor(
     private calendarService: CalendarService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.showHideEvents();
@@ -115,7 +119,7 @@ startDate: any;
     console.log('Day Names:', this.languageModel.shortDayNames);
     this.setInitialDateWithDefaultTime();
   }
-  
+
 
 
   hasEvents(day: CalendarDay): boolean {
@@ -137,7 +141,7 @@ startDate: any;
     return hasEvents;
   }
 
-  
+
 
   private setInitialDateWithDefaultTime(): void {
     // Establece la hora por defecto que desees, por ejemplo, 12:00 (mediodía)
@@ -155,7 +159,7 @@ startDate: any;
     this.onDestroy$.complete();
   }
 
-  
+
   openAddEventDialog() {
     let newEvent = getDefaultCalendarEvent();
     newEvent.language = this.langSelected;
@@ -194,7 +198,7 @@ startDate: any;
 
 
 
- 
+
   // Asegúrate de que esta función cargue los eventos correctamente
   loadEvents() {
     this.calendarService.getAllEvents()
@@ -223,12 +227,12 @@ startDate: any;
   }
 
 
-  
+
   deleteAllDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {
       data: this.languageModel,
     });
-  
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -237,20 +241,20 @@ startDate: any;
           //==================================================================================================
           // AQUI IRIA EL CODIGO PARA ELIMINAR TODOS LOS EVENTOS DEL DIA EN EL BACKEND
           //==================================================================================================
-  
+
           this.calendarService.deleteAllEventsOfTheDay(this.selectedDate)
             .subscribe((response) => {
               if (response === false) {
                 console.error(
                   this.languageModel.errorMessages[
-                    ErrorKeys.DeleteAllEventsOfTheDayError
+                  ErrorKeys.DeleteAllEventsOfTheDayError
                   ]
                 );
               } else {
                 this.reloadComponent();
               }
             });
-  
+
           //==================================================================================================
         }
       });
@@ -268,52 +272,97 @@ startDate: any;
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /**  selecciona el panel del calendario (dias, meses o años).*/
   selectPanel() {
     this.panelSelected =
       this.panelSelected === CalendarPanel.Days
         ? CalendarPanel.Months
         : this.panelSelected === CalendarPanel.Months
-        ? CalendarPanel.Years
-        : CalendarPanel.Days;
+          ? CalendarPanel.Years
+          : CalendarPanel.Days;
 
     this.setTitlePanel();
   }
 
   /**  Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
-/** Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
+  /** Establece el nombre del dia seleccionado en el calendario en la sección de eventos.*/
 
   // Este método debe actualizar eventsOfTheDay correctamente
- 
-// Este método debe actualizar eventsOfTheDay correctamente
-setSelectedDate(selected: CalendarDay) {
-  console.log('Día Seleccionado: ...... ', selected);
-  selected.selectedDate.setHours(0, 0, 0, 0);
-  this.selectedDate = selected.selectedDate;
-  this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
 
-  const selectedDateStart = new Date(this.selectedDate);
-  selectedDateStart.setHours(0, 0, 0, 0);
+  // Este método debe actualizar eventsOfTheDay correctamente
+  setSelectedDate(selected: CalendarDay) {
 
-  this.eventsOfTheDay = this.events.filter(event => {
-    const eventStartDate = new Date(event.startDate);
-    eventStartDate.setHours(0, 0, 0, 0);
-    return eventStartDate.getTime() === selectedDateStart.getTime();
-  });
 
-  console.log('Los eventos en el Día Seleccionado son :.........', this.eventsOfTheDay);
+    selected.selectedDate.setHours(0, 0, 0, 0);
+    this.selectedDate = selected.selectedDate;
+    this.fullDayName = this.languageModel.fullDayNames[this.getDayOfWeek(selected.selectedDate.getDay())];
 
-  const dateString = selected.selectedDate.toISOString().split('T')[0];
-  this.dateForm.patchValue(dateString);
-}
+    const selectedDateStart = new Date(this.selectedDate);
+    selectedDateStart.setHours(0, 0, 0, 0);
 
+    this.eventsOfTheDay = this.events.filter(event => {
+      const eventStartDate = new Date(event.startDate);
+      eventStartDate.setHours(0, 0, 0, 0);
+      return eventStartDate.getTime() === selectedDateStart.getTime();
+    });
+
+    const dateString = selected.selectedDate.toISOString().split('T')[0];
+    this.dateForm.patchValue(dateString);
+  }
 
 
 
 
-  
-  
-  
+
+
+
+
 
   /** Establece el año seleccionado en el calendario.
    * @param year  El año seleccionado.
@@ -394,17 +443,17 @@ setSelectedDate(selected: CalendarDay) {
       !this.dateForm.hasError(ErrorKeys.DateInvalid)
     ) {
       const [day, month, year] = this.dateForm.value!.split('/').map(Number);
-  
+
       // Modificación aquí
       this.selectedDate = new Date(year, month - 1, day);
       // Fin de la modificación
-  
+
       this.panelSelected = CalendarPanel.Days;
       this.reloadComponent();
     }
   }
 
-  
+
 
 
 
@@ -439,8 +488,8 @@ setSelectedDate(selected: CalendarDay) {
     this.panelSelected === CalendarPanel.Days
       ? this.updateCalendarTitle()
       : this.panelSelected === CalendarPanel.Months
-      ? (this.calendarMonthYear = this.selectedDate.getFullYear().toString())
-      : this.setDecadeTitle();
+        ? (this.calendarMonthYear = this.selectedDate.getFullYear().toString())
+        : this.setDecadeTitle();
   }
 
   /** Obtiene el número de día de la semana.
@@ -455,9 +504,8 @@ setSelectedDate(selected: CalendarDay) {
 
   /** Actualiza el titulo del calendario.*/
   private updateCalendarTitle() {
-    this.calendarMonthYear = `${
-      this.languageModel.fullMonthsNames[this.month]
-    } ${this.year}`;
+    this.calendarMonthYear = `${this.languageModel.fullMonthsNames[this.month]
+      } ${this.year}`;
   }
 
   /** Establece la década seleccionada en el titulo del calendario.*/

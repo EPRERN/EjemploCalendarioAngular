@@ -35,14 +35,13 @@ import { EventFormComponent } from '../event-form/event-form.component';
 export class EventTagComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject();
   @Input() events: CalendarEvent[] = [];
-  
-  filteredEvents: CalendarEvent[] = []; // Agrega esta línea
   @Input() event!: CalendarEvent;
   @Input() language: Languages = Languages.SPANISH;
   languageModel: LanguageModel = SPANISH;
   @Input() selectedDate: Date = new Date(); // Agregar esta línea
   @Output() reloadCalendar: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input() startDate: Date = new Date(); 
+  filteredEvents: CalendarEvent[] = []; // Agrega esta línea
+
   constructor(
     private calendarService: CalendarService,
     private dialog: MatDialog
@@ -58,13 +57,12 @@ export class EventTagComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-
   loadEvents() {
     this.calendarService.getAllEvents()
       .subscribe(
         (events: CalendarEvent[]) => {
           this.events = events;
-          this.filteredEvents = this.filterEventsByStartDate(this.startDate); 
+          this.filteredEvents = this.filterEventsBySelectedDate(); 
           console.log('Eventos cargados:', this.events); 
         },
         (error) => {
@@ -72,20 +70,20 @@ export class EventTagComponent implements OnInit, OnDestroy {
         }
       );
   }
-  
+
   openEditModal(eventItem: CalendarEvent) {
     const eventModel: CalendarEventForm = {
       ...eventItem,
       isEdit: true,
       language: this.language,
     };
-  
+
     const dialogRef = this.dialog.open(EventFormComponent, {
       minWidth: '40%',
       maxHeight: '80vh',
       data: eventModel,
     });
-  
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
@@ -93,30 +91,30 @@ export class EventTagComponent implements OnInit, OnDestroy {
         if (result === undefined) {
           return;
         }
-  
+
         //==================================================================================================
         // AQUI IRIA EL CODIGO PARA ACTUALIZAR EL EVENTO EN EL BACKEND
         //==================================================================================================
-  
+
         const response = this.calendarService.updateEvent(eventItem.id, result);
-  
+
         if (!response) {
           console.error(
             this.languageModel.errorMessages[ErrorKeys.UpdateEventError]
           );
         }
-  
+
         //==================================================================================================
-  
+
         this.reloadCalendar.emit(true);
       });
   }
-  
+
   deleteEvent(eventItem: CalendarEvent) {
     //==================================================================================================
     // AQUI IRIA EL CODIGO PARA ELIMINAR EL EVENTO DEL BACKEND
     //==================================================================================================
-  
+
     this.calendarService.deleteEvent(eventItem.id)
       .subscribe((response) => {
         if (!response) {
@@ -127,18 +125,22 @@ export class EventTagComponent implements OnInit, OnDestroy {
           this.reloadCalendar.emit(true);
         }
       });
-  
+
     //==================================================================================================
   }
-  
-  filterEventsByStartDate(startDate: Date): CalendarEvent[] {
+
+  filterEventsBySelectedDate(): CalendarEvent[] {
+    const selectedDateStart = new Date(this.selectedDate);
+    selectedDateStart.setHours(0, 0, 0, 0);
+
     return this.events.filter(event => {
       const eventStartDate = new Date(event.startDate);
       eventStartDate.setHours(0, 0, 0, 0);
-      const startDateNormalized = new Date(startDate);
-      startDateNormalized.setHours(0, 0, 0, 0);
-      return eventStartDate.getTime() === startDateNormalized.getTime();
+      return eventStartDate.getTime() === selectedDateStart.getTime();
     });
   }
-  
+
+  ngOnChanges(): void {
+    this.filteredEvents = this.filterEventsBySelectedDate();
+  }
 }

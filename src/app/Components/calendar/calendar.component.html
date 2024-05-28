@@ -96,21 +96,22 @@
           </app-event-tag>
         </div>
       </ng-container>
-      <ng-container *ngIf="eventsOfTheDay.length === 0 && eventsOfTheDay[0]?.startDate?.getDate() === selectedDate.getDate()">
+      <ng-container *ngIf="eventsOfTheDay.length === 0">
         <div class="no-events-message">
           No hay eventos para este día.
         </div>
       </ng-container>
+      <br><h1> </h1><br>
       <div class="events-footer">
-        <button 
+        <!-- <button 
           (click)="deleteAllDialog()" 
           class="delete-all-btn" 
           mat-stroked-button 
           aria-label="delete event">
           <mat-icon>delete_forever</mat-icon>
           Borrar Todo
-        </button>
-        
+        </button> -->
+        <span>Agregar Instalación</span>
         <button 
           (click)="openAddEventDialog()" 
           class="new-event-btn" 
